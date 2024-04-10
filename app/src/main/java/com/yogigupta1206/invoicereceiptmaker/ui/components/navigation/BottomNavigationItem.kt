@@ -1,34 +1,49 @@
 package com.yogigupta1206.invoicereceiptmaker.ui.components.navigation
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.AccountBox
+import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.painterResource
+import com.yogigupta1206.invoicereceiptmaker.R
 
 data class BottomNavigationItem(
     val label : String = "",
-    val icon : ImageVector = Icons.Filled.Home,
+    val icon : Any = Icons.Filled.Star,
     val route : String = ""
 ) {
 
     //function to get the list of bottomNavigationItems
+    @Composable
     fun bottomNavigationItems() : List<BottomNavigationItem> {
         return listOf(
             BottomNavigationItem(
-                label = "Home",
-                icon = Icons.Filled.Home,
-                route = Screens.Home.route
+                label = "Business",
+                icon = painterResource(id = R.drawable.store_24),
+                route = Screens.Business.route
             ),
             BottomNavigationItem(
-                label = "Search",
-                icon = Icons.Filled.Search,
-                route = Screens.Search.route
+                label = "Customer",
+                icon = Icons.Filled.AccountBox,
+                route = Screens.Customers.route
             ),
             BottomNavigationItem(
-                label = "Profile",
-                icon = Icons.Filled.AccountCircle,
-                route = Screens.Profile.route
+                label = "Discover",
+                icon = Icons.Filled.Star,
+                route = Screens.Discover.route
+            ),
+            BottomNavigationItem(
+                label = "Product",
+                icon = Icons.Filled.Email,
+                route = Screens.Customers.route
+            ),
+            BottomNavigationItem(
+                label = "Items",
+                icon = Icons.Filled.List,
+                route = Screens.Customers.route
             ),
         )
     }
