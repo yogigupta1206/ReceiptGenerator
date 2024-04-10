@@ -13,6 +13,9 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -21,7 +24,7 @@ import androidx.navigation.compose.rememberNavController
 @Composable
 fun BottomNavigationBar() {
     var navigationSelectedItem by remember {
-        mutableIntStateOf(0)
+        mutableIntStateOf(2)
     }
     val navController = rememberNavController()
     Scaffold(
@@ -36,10 +39,18 @@ fun BottomNavigationBar() {
                                 Text(navigationItem.label)
                             },
                             icon = {
-                                Icon(
-                                    navigationItem.icon,
-                                    contentDescription = navigationItem.label
-                                )
+                                if(navigationItem.icon is ImageVector){
+                                    Icon(
+                                        navigationItem.icon,
+                                        contentDescription = navigationItem.label
+                                    )
+                                }else{
+                                    Icon(
+                                        painter = navigationItem.icon as Painter,
+                                        contentDescription = navigationItem.label
+                                    )
+                                }
+
                             },
                             onClick = {
                                 navigationSelectedItem = index
@@ -58,16 +69,22 @@ fun BottomNavigationBar() {
     ) { paddingValues ->
         NavHost(
             navController = navController,
-            startDestination = Screens.Home.route,
+            startDestination = Screens.Discover.route,
             modifier = Modifier.padding(paddingValues = paddingValues)
         ) {
-            composable(Screens.Home.route) {
+            composable(Screens.Discover.route) {
                 //call our composable screens here
             }
-            composable(Screens.Search.route) {
+            composable(Screens.Business.route) {
                 //call our composable screens here
             }
-            composable(Screens.Profile.route) {
+            composable(Screens.Customers.route) {
+                //call our composable screens here
+            }
+            composable(Screens.Items.route) {
+                //call our composable screens here
+            }
+            composable(Screens.Products.route) {
                 //call our composable screens here
             }
         }
