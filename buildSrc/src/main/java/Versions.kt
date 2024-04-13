@@ -10,5 +10,6 @@ object Versions {
     const val espressoCore = "3.5.1"
     const val hiltAndroid = "2.44"
     const val room = "2.6.1"
+    const val datastorePreferences = "1.0.0"
 
 }

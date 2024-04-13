@@ -19,6 +19,7 @@ object Dependencies {
     val hiltAndroidCompiler by lazy { "com.google.dagger:hilt-android-compiler:${Versions.hiltAndroid}" }
     val roomRuntime by lazy { "androidx.room:room-runtime:${Versions.room}" }
     val roomCompiler by lazy { "androidx.room:room-compiler:${Versions.room}" }
+    val datastorePreferences by lazy { "androidx.datastore:datastore-preferences:${Versions.datastorePreferences}" }
 
 
 }

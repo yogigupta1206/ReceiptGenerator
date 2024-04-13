@@ -80,6 +80,10 @@ dependencies {
     implementation(Dependencies.roomRuntime)
     kapt(Dependencies.roomCompiler)
     annotationProcessor(Dependencies.roomCompiler)
+
+    // Datastore Preferences
+    implementation(Dependencies.datastorePreferences)
+
 }
 
 // Allow references to generated code
