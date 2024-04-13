@@ -15,10 +15,14 @@ object Dependencies {
     val composeUiTestJunit4 by lazy { "androidx.compose.ui:ui-test-junit4" }
     val composeUiTooling by lazy { "androidx.compose.ui:ui-tooling" }
     val composeUiTestManifest by lazy { "androidx.compose.ui:ui-test-manifest" }
+
     val hiltAndroid by lazy { "com.google.dagger:hilt-android:${Versions.hiltAndroid}" }
     val hiltAndroidCompiler by lazy { "com.google.dagger:hilt-android-compiler:${Versions.hiltAndroid}" }
+
     val roomRuntime by lazy { "androidx.room:room-runtime:${Versions.room}" }
     val roomCompiler by lazy { "androidx.room:room-compiler:${Versions.room}" }
+    val roomKtx by lazy { "androidx.room:room-ktx:${Versions.room}" }
+
     val datastorePreferences by lazy { "androidx.datastore:datastore-preferences:${Versions.datastorePreferences}" }
 
 
