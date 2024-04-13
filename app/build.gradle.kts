@@ -1,7 +1,6 @@
-import org.jetbrains.kotlin.config.JvmTarget
-
 plugins {
     kotlin("kapt")
+    id("kotlin-android")
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.dagger.hilt.android")
@@ -21,6 +20,21 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
+        }
+
+        kapt {
+            includeCompileClasspath = true
+        }
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments(
+                    mapOf(
+                        "room.schemaLocation" to "$projectDir/schemas",
+                        "room.incremental" to "true"
+                    )
+                )
+            }
         }
     }
 
@@ -80,6 +94,7 @@ dependencies {
     implementation(Dependencies.roomRuntime)
     kapt(Dependencies.roomCompiler)
     annotationProcessor(Dependencies.roomCompiler)
+    implementation(Dependencies.roomKtx)
 
     // Datastore Preferences
     implementation(Dependencies.datastorePreferences)

@@ -1,0 +1,37 @@
+package com.yogigupta1206.invoicereceiptmaker.data.data_source.db
+
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.Query
+import androidx.room.Update
+import com.yogigupta1206.invoicereceiptmaker.domain.model.Customer
+import kotlinx.coroutines.flow.Flow
+
+@Dao
+interface CustomersDao {
+
+    @Query("SELECT * FROM customer")
+    fun getAllCustomers(): Flow<List<Customer>>
+
+    @Query("SELECT * FROM customer WHERE id = :id")
+    suspend fun getCustomerById(id: Int): Customer?
+
+    @Insert
+    suspend fun insertCustomer(customer: Customer)
+
+    @Insert
+    suspend fun insertAllCustomers(customers: List<Customer>)
+
+    @Update
+    suspend fun updateCustomer(customer: Customer)
+
+    @Delete
+    suspend fun deleteCustomer(customer: Customer)
+
+    @Query("DELETE FROM customer WHERE id = :id")
+    suspend fun deleteCustomerById(id: Int)
+
+    @Query("DELETE FROM customer")
+    suspend fun deleteAllCustomers()
+}
