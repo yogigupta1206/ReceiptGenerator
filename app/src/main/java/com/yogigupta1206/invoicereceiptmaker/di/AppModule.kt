@@ -4,10 +4,14 @@ import android.app.Application
 import androidx.room.Room
 import com.yogigupta1206.invoicereceiptmaker.data.data_source.db.AppDbDataSource
 import com.yogigupta1206.invoicereceiptmaker.data.data_source.prefs.AppPrefDataSource
+import com.yogigupta1206.invoicereceiptmaker.data.repository.BusinessRepositoryImpl
 import com.yogigupta1206.invoicereceiptmaker.data.repository.CustomerRepositoryImpl
 import com.yogigupta1206.invoicereceiptmaker.data.repository.ProductRepositoryImpl
+import com.yogigupta1206.invoicereceiptmaker.data.repository.TnCRepositoryImpl
+import com.yogigupta1206.invoicereceiptmaker.domain.repository.BusinessRepository
 import com.yogigupta1206.invoicereceiptmaker.domain.repository.CustomerRepository
 import com.yogigupta1206.invoicereceiptmaker.domain.repository.ProductRepository
+import com.yogigupta1206.invoicereceiptmaker.domain.repository.TnCRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -48,7 +52,15 @@ class AppModule {
         return CustomerRepositoryImpl(appDbDataSource.customersDao())
     }
 
+    @Provides
+    fun provideBusinessRepository(appPrefDataSource: AppPrefDataSource) : BusinessRepository {
+        return BusinessRepositoryImpl(appPrefDataSource)
+    }
 
+    @Provides
+    fun provideTnCRepository(appDbDataSource: AppDbDataSource) : TnCRepository {
+        return TnCRepositoryImpl(appDbDataSource.tnCDao())
+    }
 
 
 
