@@ -99,6 +99,9 @@ dependencies {
     // Datastore Preferences
     implementation(Dependencies.datastorePreferences)
 
+    //Gson
+    implementation(Dependencies.gson)
+
 }
 
 // Allow references to generated code

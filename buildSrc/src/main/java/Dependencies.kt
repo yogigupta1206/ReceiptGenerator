@@ -25,5 +25,7 @@ object Dependencies {
 
     val datastorePreferences by lazy { "androidx.datastore:datastore-preferences:${Versions.datastorePreferences}" }
 
+    val gson by lazy { "com.google.code.gson:gson:${Versions.gson}" }
+
 
 }

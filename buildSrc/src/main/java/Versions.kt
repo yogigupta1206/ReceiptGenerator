@@ -11,5 +11,6 @@ object Versions {
     const val hiltAndroid = "2.48.1"
     const val room = "2.6.1"
     const val datastorePreferences = "1.0.0"
+    const val gson = "2.10.1"
 
 }
