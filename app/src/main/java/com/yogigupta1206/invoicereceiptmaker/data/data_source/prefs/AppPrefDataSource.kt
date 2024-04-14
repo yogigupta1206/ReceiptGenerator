@@ -13,8 +13,9 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.first
+import javax.inject.Inject
 
-class AppPrefDataSource {
+class AppPrefDataSource @Inject constructor(private val context: Context){
 
     companion object{
         private const val USER_PREFERENCES_NAME = "preferences"
@@ -22,98 +23,98 @@ class AppPrefDataSource {
 
     private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = USER_PREFERENCES_NAME)
 
-    suspend fun saveInPref(context: Context, key: String, value: Int) {
+    suspend fun saveInPref(key: String, value: Int) {
         val preferencesKey = intPreferencesKey(key)
         context.dataStore.edit { preference ->
             preference[preferencesKey] = value
         }
     }
 
-    suspend fun saveInPref(context: Context, key: String, value: Double) {
+    suspend fun saveInPref(key: String, value: Double) {
         val preferencesKey = doublePreferencesKey(key)
         context.dataStore.edit { preference ->
             preference[preferencesKey] = value
         }
     }
 
-    suspend fun saveInPref(context: Context, key: String, value: String) {
+    suspend fun saveInPref(key: String, value: String) {
         val preferencesKey = stringPreferencesKey(key)
         context.dataStore.edit { preference ->
             preference[preferencesKey] = value
         }
     }
 
-    suspend fun saveInPref(context: Context, key: String, value: Boolean) {
+    suspend fun saveInPref(key: String, value: Boolean) {
         val preferencesKey = booleanPreferencesKey(key)
         context.dataStore.edit { preference ->
             preference[preferencesKey] = value
         }
     }
 
-    suspend fun saveInPref(context: Context, key: String, value: Float) {
+    suspend fun saveInPref(key: String, value: Float) {
         val preferencesKey = floatPreferencesKey(key)
         context.dataStore.edit { preference ->
             preference[preferencesKey] = value
         }
     }
 
-    suspend fun saveInPref(context: Context, key: String, value: Long) {
+    suspend fun saveInPref(key: String, value: Long) {
         val preferencesKey = longPreferencesKey(key)
         context.dataStore.edit { preference ->
             preference[preferencesKey] = value
         }
     }
 
-    suspend fun saveInPref(context: Context, key: String, value: Set<String>) {
+    suspend fun saveInPref(key: String, value: Set<String>) {
         val preferencesKey = stringSetPreferencesKey(key)
         context.dataStore.edit { preference ->
             preference[preferencesKey] = value
         }
     }
 
-    suspend fun getIntFromPref(context: Context, key: String): Int {
+    suspend fun getIntFromPref(key: String): Int {
         val preferencesKey = intPreferencesKey(key)
         val preferences = context.dataStore.data.first()
         return preferences[preferencesKey] ?: 0
     }
 
-    suspend fun getDoubleFromPref(context: Context, key: String): Double {
+    suspend fun getDoubleFromPref(key: String): Double {
         val preferencesKey = doublePreferencesKey(key)
         val preferences = context.dataStore.data.first()
         return preferences[preferencesKey] ?: 0.0
     }
 
-    suspend fun getStringFromPref(context: Context, key: String): String {
+    suspend fun getStringFromPref(key: String): String {
         val preferencesKey = stringPreferencesKey(key)
         val preferences = context.dataStore.data.first()
         return preferences[preferencesKey] ?: ""
     }
 
-    suspend fun getBooleanFromPref(context: Context, key: String): Boolean {
+    suspend fun getBooleanFromPref(key: String): Boolean {
         val preferencesKey = booleanPreferencesKey(key)
         val preferences = context.dataStore.data.first()
         return preferences[preferencesKey] ?: false
     }
 
-    suspend fun getFloatFromPref(context: Context, key: String): Float {
+    suspend fun getFloatFromPref(key: String): Float {
         val preferencesKey = floatPreferencesKey(key)
         val preferences = context.dataStore.data.first()
         return preferences[preferencesKey] ?: 0.0f
     }
 
-    suspend fun getLongFromPref(context: Context, key: String): Long {
+    suspend fun getLongFromPref(key: String): Long {
         val preferencesKey = longPreferencesKey(key)
         val preferences = context.dataStore.data.first()
         return preferences[preferencesKey] ?: 0L
     }
 
-    suspend fun getStringSetFromPref(context: Context, key: String): Set<String> {
+    suspend fun getStringSetFromPref(key: String): Set<String> {
         val preferencesKey = stringSetPreferencesKey(key)
         val preferences = context.dataStore.data.first()
         return preferences[preferencesKey] ?: emptySet()
     }
 
-    suspend fun removeFromPref(context: Context, key: String) {
+    suspend fun removeFromPref(key: String) {
         context.dataStore.edit { preference ->
             preference.remove(intPreferencesKey(key))
             preference.remove(doublePreferencesKey(key))
@@ -125,7 +126,7 @@ class AppPrefDataSource {
         }
     }
 
-    suspend fun clearAllPref(context: Context) {
+    suspend fun clearAllPref() {
         context.dataStore.edit { preference ->
             preference.clear()
         }

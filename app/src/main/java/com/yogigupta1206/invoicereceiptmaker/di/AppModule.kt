@@ -24,8 +24,8 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideAppPrefDataSource(): AppPrefDataSource {
-        return AppPrefDataSource()
+    fun provideAppPrefDataSource(app:Application): AppPrefDataSource {
+        return AppPrefDataSource(app)
     }
 
     @Provides

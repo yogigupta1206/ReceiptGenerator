@@ -1,8 +1,5 @@
 package com.yogigupta1206.invoicereceiptmaker.domain.model
 
-import androidx.room.Entity
-
-@Entity
 data class Business (
     val businessName: String,
     val contactName: String,

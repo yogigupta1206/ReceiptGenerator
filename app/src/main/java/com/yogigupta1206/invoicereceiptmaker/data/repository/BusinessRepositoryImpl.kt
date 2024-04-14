@@ -14,18 +14,18 @@ class BusinessRepositoryImpl @Inject constructor(
         private const val BUSINESS_KEY = "business_key"
     }
 
-    override suspend fun getBusinessDetails(context: Context): Business {
-        val businessJson = appPrefDataSource.getStringFromPref(context, BUSINESS_KEY)
+    override suspend fun getBusinessDetails(): Business {
+        val businessJson = appPrefDataSource.getStringFromPref(BUSINESS_KEY)
         return Gson().fromJson(businessJson, Business::class.java)
     }
 
-    override suspend fun updateBusinessDetails(context: Context, business: Business) {
+    override suspend fun updateBusinessDetails(business: Business) {
         val businessJson = Gson().toJson(business)
-        appPrefDataSource.saveInPref(context, BUSINESS_KEY, businessJson)
+        appPrefDataSource.saveInPref(BUSINESS_KEY, businessJson)
     }
 
-    override suspend fun deleteBusinessDetails(context: Context, business: Business) {
-        appPrefDataSource.removeFromPref(context, BUSINESS_KEY)
+    override suspend fun deleteBusinessDetails(business: Business) {
+        appPrefDataSource.removeFromPref(BUSINESS_KEY)
     }
 
 }

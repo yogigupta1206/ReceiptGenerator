@@ -6,7 +6,6 @@ import com.yogigupta1206.invoicereceiptmaker.domain.model.Customer
 import com.yogigupta1206.invoicereceiptmaker.domain.model.Product
 import com.yogigupta1206.invoicereceiptmaker.domain.model.TnC
 
-
 @Database(entities = [Product::class, Customer::class, TnC::class], version = 1)
 abstract class AppDbDataSource : RoomDatabase(){
 

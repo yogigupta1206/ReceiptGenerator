@@ -1,19 +1,21 @@
 package com.yogigupta1206.invoicereceiptmaker.domain.repository
 
-import com.yogigupta1206.invoicereceiptmaker.data.data_source.db.TncDao
+import com.yogigupta1206.invoicereceiptmaker.domain.model.TnC
 import kotlinx.coroutines.flow.Flow
 
 interface TnCRepository {
 
-    fun getTnc(): Flow<List<TncDao>>
+    fun getAllTnc(): Flow<List<TnC>>
 
-    suspend fun insertTnc(tnc: TncDao)
+    suspend fun getTncById(id: Int): TnC
 
-    suspend fun insertTncList(tncList: List<TncDao>)
+    suspend fun insertTnc(tnc: TnC)
 
-    suspend fun updateTnc(tnc: TncDao)
+    suspend fun insertTncList(tncList: List<TnC>)
 
-    suspend fun deleteTnc(tnc: TncDao)
+    suspend fun updateTnc(tnc: TnC)
+
+    suspend fun deleteTnc(tnc: TnC)
 
     suspend fun deleteAllTnc()
 }
