@@ -15,7 +15,7 @@ interface CustomersDao {
     fun getAllCustomers(): Flow<List<Customer>>
 
     @Query("SELECT * FROM customer WHERE id = :id")
-    suspend fun getCustomerById(id: Int): Customer?
+    suspend fun getCustomerById(id: Long): Customer?
 
     @Insert
     suspend fun insertCustomer(customer: Customer)
@@ -30,7 +30,7 @@ interface CustomersDao {
     suspend fun deleteCustomer(customer: Customer)
 
     @Query("DELETE FROM customer WHERE id = :id")
-    suspend fun deleteCustomerById(id: Int)
+    suspend fun deleteCustomerById(id: Long)
 
     @Query("DELETE FROM customer")
     suspend fun deleteAllCustomers()

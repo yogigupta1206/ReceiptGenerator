@@ -12,7 +12,7 @@ class CustomerRepositoryImpl(
         return customersDao.getAllCustomers()
     }
 
-    override suspend fun getCustomerById(id: Int): Customer? {
+    override suspend fun getCustomerById(id: Long): Customer? {
         return customersDao.getCustomerById(id)
     }
 
@@ -32,7 +32,7 @@ class CustomerRepositoryImpl(
         return customersDao.deleteCustomer(customer)
     }
 
-    override suspend fun deleteCustomerById(id: Int) {
+    override suspend fun deleteCustomerById(id: Long) {
         return customersDao.deleteCustomerById(id)
     }
 

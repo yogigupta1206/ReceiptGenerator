@@ -7,7 +7,7 @@ interface CustomerRepository {
 
     fun getAllCustomers(): Flow<List<Customer>>
 
-    suspend fun getCustomerById(id: Int): Customer?
+    suspend fun getCustomerById(id: Long): Customer?
 
     suspend fun insertCustomer(customer: Customer)
 
@@ -17,7 +17,7 @@ interface CustomerRepository {
 
     suspend fun deleteCustomer(customer: Customer)
 
-    suspend fun deleteCustomerById(id: Int)
+    suspend fun deleteCustomerById(id: Long)
 
     suspend fun deleteAllCustomers()
 

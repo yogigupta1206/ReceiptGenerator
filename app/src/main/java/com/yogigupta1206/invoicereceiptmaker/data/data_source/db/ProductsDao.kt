@@ -16,7 +16,7 @@ interface ProductsDao {
     fun getAllProducts(): Flow<List<Product>>
 
     @Query("SELECT * FROM product WHERE id = :id")
-    suspend fun getProductById(id: Int): Product?
+    suspend fun getProductById(id: Long): Product?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(item: Product)
@@ -31,7 +31,7 @@ interface ProductsDao {
     suspend fun deleteProduct(item: Product)
 
     @Query("DELETE FROM product WHERE id = :id")
-    suspend fun deleteProductById(id: Int)
+    suspend fun deleteProductById(id: Long)
 
     @Query("DELETE FROM product")
     suspend fun deleteAllProducts()

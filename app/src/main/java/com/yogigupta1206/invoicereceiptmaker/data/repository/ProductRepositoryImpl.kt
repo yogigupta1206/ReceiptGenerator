@@ -12,7 +12,7 @@ class ProductRepositoryImpl(
         return productsDao.getAllProducts()
     }
 
-    override suspend fun getProductById(id: Int): Product? {
+    override suspend fun getProductById(id: Long): Product? {
         return productsDao.getProductById(id)
     }
 
@@ -32,7 +32,7 @@ class ProductRepositoryImpl(
         return productsDao.deleteProduct(product)
     }
 
-    override suspend fun deleteProductById(id: Int) {
+    override suspend fun deleteProductById(id: Long) {
         return productsDao.deleteProductById(id)
     }
 
