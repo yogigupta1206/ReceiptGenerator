@@ -12,7 +12,7 @@ class TnCRepositoryImpl(
         return tncDao.getAllTnc()
     }
 
-    override suspend fun getTncById(id: Int): TnC {
+    override suspend fun getTncById(id: Long): TnC {
         return tncDao.getTncById(id)
     }
 

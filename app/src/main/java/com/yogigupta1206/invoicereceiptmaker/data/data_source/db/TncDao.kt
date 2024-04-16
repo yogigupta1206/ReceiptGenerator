@@ -16,7 +16,7 @@ interface TncDao {
     fun getAllTnc(): Flow<List<TnC>>
 
     @Query("SELECT * FROM tnc WHERE id = :id")
-    suspend fun getTncById(id: Int): TnC
+    suspend fun getTncById(id: Long): TnC
 
     @Insert
     suspend fun insertTnc(tnc: TnC)

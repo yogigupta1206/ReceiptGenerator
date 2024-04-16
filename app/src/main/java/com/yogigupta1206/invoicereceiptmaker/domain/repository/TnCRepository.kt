@@ -7,7 +7,7 @@ interface TnCRepository {
 
     fun getAllTnc(): Flow<List<TnC>>
 
-    suspend fun getTncById(id: Int): TnC
+    suspend fun getTncById(id: Long): TnC
 
     suspend fun insertTnc(tnc: TnC)
 
