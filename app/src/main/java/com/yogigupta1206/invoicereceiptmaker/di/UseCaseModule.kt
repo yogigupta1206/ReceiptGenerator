@@ -37,7 +37,7 @@ class UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideCustomerUseCases(
+    fun provideProductUseCases(
         productRepository: ProductRepository,
     ): ProductUseCases {
         return ProductUseCases(

@@ -2,6 +2,7 @@ package com.yogigupta1206.invoicereceiptmaker.domain.model
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(
@@ -10,7 +11,7 @@ import androidx.room.PrimaryKey
         parentColumns = arrayOf("id"),
         childColumns = arrayOf("customerId"),
         onDelete = ForeignKey.CASCADE // Optional: Delete quotation when customer is deleted
-    )]
+    )], indices = [Index(value = ["customerId"])]
 )
 data class Quotation(
     @PrimaryKey(autoGenerate = true) val id: Long? = null,
@@ -23,7 +24,7 @@ data class Quotation(
 )
 
 @Entity(
-    foreignKeys = [ForeignKey(
+    primaryKeys = ["quotationId", "termsId"], foreignKeys = [ForeignKey(
         entity = TnC::class,
         parentColumns = arrayOf("id"),
         childColumns = arrayOf("termsId"),
@@ -33,12 +34,11 @@ data class Quotation(
         parentColumns = arrayOf("id"),
         childColumns = arrayOf("quotationId"),
         onDelete = ForeignKey.CASCADE // Optional: Delete quotation terms when quotation is deleted
-    )
-    ]
+    )],
+    indices = [Index(value = ["termsId"])]
 )
 data class QuotationTerms(
-    val quotationId: Long,
-    val termsId: Long
+    val quotationId: Long, val termsId: Long
 )
 
 @Entity(
@@ -52,7 +52,8 @@ data class QuotationTerms(
         parentColumns = arrayOf("id"),
         childColumns = arrayOf("quotationId"),
         onDelete = ForeignKey.CASCADE // Optional: Delete quotation items when quotation is deleted
-    )]
+    )],
+    indices = [Index(value = ["productId"])]
 )
 data class QuotationItem(
     val quotationId: Long,
