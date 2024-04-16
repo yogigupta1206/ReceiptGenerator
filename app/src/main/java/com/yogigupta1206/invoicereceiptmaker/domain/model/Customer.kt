@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity
 data class Customer(
     @PrimaryKey(autoGenerate = true) val id: Long? = null,
-    val name: String?,
+    val name: String,
     val email: String?,
     val phone: String?,
     val gstNumber: String?,
@@ -15,3 +15,5 @@ data class Customer(
     val otherInfo: String?,
     val shippingAddress: String?
 )
+
+class InvalidCustomerException(message: String): Exception(message)

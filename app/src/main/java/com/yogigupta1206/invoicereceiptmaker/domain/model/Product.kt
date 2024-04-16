@@ -17,3 +17,5 @@ data class Product (
         return price + (price * (gstPercentage ?: 0.0) / 100)
     }
 }
+
+class InvalidProductException(message: String): Exception(message)
