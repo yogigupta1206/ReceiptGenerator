@@ -1,6 +1,5 @@
 package com.yogigupta1206.invoicereceiptmaker.data.repository
 
-import android.content.Context
 import com.google.gson.Gson
 import com.yogigupta1206.invoicereceiptmaker.data.data_source.prefs.AppPrefDataSource
 import com.yogigupta1206.invoicereceiptmaker.domain.model.Business
@@ -19,7 +18,7 @@ class BusinessRepositoryImpl @Inject constructor(
         return Gson().fromJson(businessJson, Business::class.java)
     }
 
-    override suspend fun updateBusinessDetails(business: Business) {
+    override suspend fun addBusinessDetails(business: Business) {
         val businessJson = Gson().toJson(business)
         appPrefDataSource.saveInPref(BUSINESS_KEY, businessJson)
     }

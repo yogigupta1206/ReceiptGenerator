@@ -10,7 +10,7 @@ class AddCustomer(
 ) {
     @Throws(InvalidCustomerException::class)
     suspend operator fun invoke(customer: Customer){
-        if(customer.name.isBlank()) {
+        if(customer.name.isNullOrBlank()) {
             throw InvalidCustomerException("Customer name can't be empty")
         }
         if(!customer.email.isNullOrBlank() && UserDetailsValidator.isValidEmail(customer.email).not()) {

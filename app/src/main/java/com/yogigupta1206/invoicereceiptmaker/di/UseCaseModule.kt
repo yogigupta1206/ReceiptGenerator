@@ -1,7 +1,11 @@
 package com.yogigupta1206.invoicereceiptmaker.di
 
+import com.yogigupta1206.invoicereceiptmaker.domain.repository.BusinessRepository
 import com.yogigupta1206.invoicereceiptmaker.domain.repository.CustomerRepository
 import com.yogigupta1206.invoicereceiptmaker.domain.repository.ProductRepository
+import com.yogigupta1206.invoicereceiptmaker.domain.use_case.business.AddBusinessDetails
+import com.yogigupta1206.invoicereceiptmaker.domain.use_case.business.BusinessUseCases
+import com.yogigupta1206.invoicereceiptmaker.domain.use_case.business.GetBusinessDetails
 import com.yogigupta1206.invoicereceiptmaker.domain.use_case.customer.AddCustomer
 import com.yogigupta1206.invoicereceiptmaker.domain.use_case.customer.CustomerUseCases
 import com.yogigupta1206.invoicereceiptmaker.domain.use_case.customer.DeleteCustomer
@@ -45,6 +49,17 @@ class UseCaseModule {
             GetProduct(productRepository),
             DeleteProduct(productRepository),
             AddProduct(productRepository)
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideBusinessUseCases(
+        businessRepository: BusinessRepository,
+    ): BusinessUseCases{
+        return BusinessUseCases(
+            GetBusinessDetails(businessRepository),
+            AddBusinessDetails(businessRepository)
         )
     }
 
