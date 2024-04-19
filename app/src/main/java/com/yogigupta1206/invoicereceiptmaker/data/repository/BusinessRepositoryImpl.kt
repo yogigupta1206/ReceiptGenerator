@@ -15,7 +15,7 @@ class BusinessRepositoryImpl @Inject constructor(
 
     override suspend fun getBusinessDetails(): Business {
         val businessJson = appPrefDataSource.getStringFromPref(BUSINESS_KEY)
-        return Gson().fromJson(businessJson, Business::class.java)
+        return Gson().fromJson(businessJson, Business::class.java) ?: Business()
     }
 
     override suspend fun addBusinessDetails(business: Business) {

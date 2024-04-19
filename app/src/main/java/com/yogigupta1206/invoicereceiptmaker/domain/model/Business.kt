@@ -1,18 +1,18 @@
 package com.yogigupta1206.invoicereceiptmaker.domain.model
 
 data class Business (
-    val businessName: String? = null,
-    val contactName: String? ,
-    val email: String?,
-    val phone: String?,
-    val address1: String?,
-    val address2: String?,
-    val address3: String?,
-    val otherInfo: String?,
-    val gstPanVanLabel: String?,
-    val gstPanVanNumber: String?,
-    val businessCategory: String?,
-    val paymentDetails: String?,
+    val businessName: String? = "Business Name",
+    val contactName: String? = "Contact Name",
+    val email: String? = "Email",
+    val phone: String? = "Phone Number",
+    val address1: String? = "Address 1",
+    val address2: String? = "Address 2",
+    val address3: String? = "Address 3",
+    val otherInfo: String? = "Other Info",
+    val gstPanVanLabel: String? = "GSTIN",
+    val gstPanVanNumber: String? = "GSTIN Number",
+    val businessCategory: String? = "Business Category",
+    val paymentDetails: String? = "Payment Details",
 )
 
 class InvalidBusinessException(message: String): Exception(message)

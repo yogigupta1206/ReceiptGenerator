@@ -89,6 +89,7 @@ dependencies {
     // Hilt Dependencies
     implementation(Dependencies.hiltAndroid)
     kapt(Dependencies.hiltAndroidCompiler)
+    implementation(Dependencies.hiltNavigationCompose)
 
     // Room Dependencies
     implementation(Dependencies.roomRuntime)
