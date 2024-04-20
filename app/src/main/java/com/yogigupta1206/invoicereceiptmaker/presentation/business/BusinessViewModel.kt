@@ -1,5 +1,6 @@
 package com.yogigupta1206.invoicereceiptmaker.presentation.business
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -7,15 +8,21 @@ import androidx.lifecycle.viewModelScope
 import com.yogigupta1206.invoicereceiptmaker.domain.model.Business
 import com.yogigupta1206.invoicereceiptmaker.domain.use_case.business.BusinessUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
 class BusinessViewModel @Inject constructor(
     private val businessUseCases: BusinessUseCases
 ) : ViewModel() {
+
+    companion object {
+        private const val TAG = "BusinessViewModel"
+    }
 
     private val _businessName = mutableStateOf<String?>("Business Name")
     val businessName: State<String?> = _businessName
@@ -104,23 +111,22 @@ class BusinessViewModel @Inject constructor(
     private fun saveBusinessDetails() {
         viewModelScope.launch {
             try {
-                businessUseCases.addBusinessDetails(
-                    Business(
-                        businessName = businessName.value ?: "",
-                        contactName = contactName.value ?: "",
-                        email = email.value ?: "",
-                        phone = phone.value ?: "",
-                        address1 = address1.value ?: "",
-                        address2 = address2.value ?: "",
-                        address3 = address3.value ?: "",
-                        otherInfo = otherInfo.value ?: "",
-                        gstPanVanLabel = gstPanVanLabel.value ?: "",
-                        gstPanVanNumber = gstPanVanNumber.value ?: "",
-                        businessCategory = businessCategory.value ?: "",
-                        paymentDetails = paymentDetails.value ?: ""
-                    )
+                val businessData = Business(
+                    businessName = businessName.value ?: "",
+                    contactName = contactName.value ?: "",
+                    email = email.value ?: "",
+                    phone = phone.value ?: "",
+                    address1 = address1.value ?: "",
+                    address2 = address2.value ?: "",
+                    address3 = address3.value ?: "",
+                    otherInfo = otherInfo.value ?: "",
+                    gstPanVanLabel = gstPanVanLabel.value ?: "",
+                    gstPanVanNumber = gstPanVanNumber.value ?: "",
+                    businessCategory = businessCategory.value ?: "",
+                    paymentDetails = paymentDetails.value ?: ""
                 )
-                _eventFlow.emit(UiEvent.ShowSnackBar("Details Saved"))
+                Log.d(TAG, "saveBusinessDetails: $businessData")
+                withContext(Dispatchers.IO){ businessUseCases.addBusinessDetails(businessData) }
                 _eventFlow.emit(UiEvent.SaveDetails)
             } catch (e: Exception) {
                 _eventFlow.emit(

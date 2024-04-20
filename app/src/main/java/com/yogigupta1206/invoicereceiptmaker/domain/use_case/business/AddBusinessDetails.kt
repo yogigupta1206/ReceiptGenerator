@@ -11,9 +11,9 @@ class AddBusinessDetails(
     @Throws(InvalidBusinessException::class)
     suspend operator fun invoke(business: Business) {
         if(business.businessName.isNullOrBlank() && business.contactName.isNullOrBlank())
-            throw InvalidBusinessException("Business name can't be empty or blank")
+            throw InvalidBusinessException("Name can't be empty or blank")
         if(!business.email.isNullOrBlank() && !UserDetailsValidator.isValidEmail(business.email))
-            throw InvalidBusinessException("Contact name can't be empty or blank")
+            throw InvalidBusinessException("Invalid email")
         businessRepository.addBusinessDetails(business)
     }
 }
