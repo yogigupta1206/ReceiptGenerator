@@ -65,8 +65,4 @@ fun CustomerItem(
             }
         }
     }
-
-
-
-
 }
