@@ -13,5 +13,6 @@ object Versions {
     const val room = "2.6.1"
     const val datastorePreferences = "1.0.0"
     const val gson = "2.10.1"
+    const val androidTestRunner = "1.4.0"
 
 }

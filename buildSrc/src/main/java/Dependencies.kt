@@ -10,6 +10,11 @@ object Dependencies {
     val composeMaterial3 by lazy { "androidx.compose.material3:material3" }
     val navigationCompose by lazy { "androidx.navigation:navigation-compose:${Versions.navigationCompose}" }
     val junit by lazy { "junit:junit:${Versions.junit}" }
+    val androidTestExtJunitKtx by lazy { "androidx.test.ext:junit-ktx:${Versions.androidTestExtJunit}" }
+
+    //    testImplementation 'androidx.test:runner:1.4.0'
+    val androidTestRunner by lazy { "androidx.test:runner:${Versions.androidTestRunner}" }
+    val androidTestRules by lazy { "androidx.test:rules:${Versions.androidTestRunner}" }
     val androidTestExtJunit by lazy { "androidx.test.ext:junit:${Versions.androidTestExtJunit}" }
     val espressoCore by lazy { "androidx.test.espresso:espresso-core:${Versions.espressoCore}" }
     val composeUiTestJunit4 by lazy { "androidx.compose.ui:ui-test-junit4" }

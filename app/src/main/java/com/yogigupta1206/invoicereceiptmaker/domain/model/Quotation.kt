@@ -15,7 +15,7 @@ import androidx.room.PrimaryKey
 )
 data class Quotation(
     @PrimaryKey(autoGenerate = true) val id: Long? = null,
-    val customerId: Long,
+    var customerId: Long,
     var otherChargesLabel: String? = "Other Charge",
     var otherCharges: Double = 0.0,
     var otherChargesTaxable: Boolean = false,
@@ -56,7 +56,7 @@ data class QuotationTerms(
     indices = [Index(value = ["productId"])]
 )
 data class QuotationItem(
-    val quotationId: Long,
+    var quotationId: Long = -1,
     val productId: Long,
     var quantity: Int = 1,
     var discountType: QuotationDiscountType = QuotationDiscountType.PERCENTAGE,

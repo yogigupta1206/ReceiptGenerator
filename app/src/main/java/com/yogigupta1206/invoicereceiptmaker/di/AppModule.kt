@@ -7,10 +7,12 @@ import com.yogigupta1206.invoicereceiptmaker.data.data_source.prefs.AppPrefDataS
 import com.yogigupta1206.invoicereceiptmaker.data.repository.BusinessRepositoryImpl
 import com.yogigupta1206.invoicereceiptmaker.data.repository.CustomerRepositoryImpl
 import com.yogigupta1206.invoicereceiptmaker.data.repository.ProductRepositoryImpl
+import com.yogigupta1206.invoicereceiptmaker.data.repository.QuotationRepositoryImpl
 import com.yogigupta1206.invoicereceiptmaker.data.repository.TnCRepositoryImpl
 import com.yogigupta1206.invoicereceiptmaker.domain.repository.BusinessRepository
 import com.yogigupta1206.invoicereceiptmaker.domain.repository.CustomerRepository
 import com.yogigupta1206.invoicereceiptmaker.domain.repository.ProductRepository
+import com.yogigupta1206.invoicereceiptmaker.domain.repository.QuotationRepository
 import com.yogigupta1206.invoicereceiptmaker.domain.repository.TnCRepository
 import dagger.Module
 import dagger.Provides
@@ -53,15 +55,19 @@ class AppModule {
     }
 
     @Provides
-    fun provideBusinessRepository(appPrefDataSource: AppPrefDataSource) : BusinessRepository {
+    fun provideBusinessRepository(appPrefDataSource: AppPrefDataSource): BusinessRepository {
         return BusinessRepositoryImpl(appPrefDataSource)
     }
 
     @Provides
-    fun provideTnCRepository(appDbDataSource: AppDbDataSource) : TnCRepository {
+    fun provideTnCRepository(appDbDataSource: AppDbDataSource): TnCRepository {
         return TnCRepositoryImpl(appDbDataSource.tnCDao())
     }
 
+    @Provides
+    fun provideQuotationRepository(appDbDataSource: AppDbDataSource): QuotationRepository {
+        return QuotationRepositoryImpl(appDbDataSource.quotationDao())
+    }
 
 
 }
