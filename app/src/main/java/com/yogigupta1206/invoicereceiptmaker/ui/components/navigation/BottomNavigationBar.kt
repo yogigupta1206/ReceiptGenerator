@@ -16,11 +16,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.yogigupta1206.invoicereceiptmaker.core.Screens
 import com.yogigupta1206.invoicereceiptmaker.presentation.business.BusinessScreen
+import com.yogigupta1206.invoicereceiptmaker.presentation.customer_add_edit.CustomerAddEditEventScreen
 import com.yogigupta1206.invoicereceiptmaker.presentation.customers.CustomersScreen
 
 @Composable
@@ -89,6 +92,17 @@ fun BottomNavigationBar() {
             }
             composable(Screens.Products.route) {
                 //call our composable screens here
+            }
+
+            composable(
+                route = Screens.CustomerAddEdit.route + "?customerId={customerId}",
+                arguments = listOf(navArgument("customerId"
+                ) {
+                    type = NavType.LongType
+                    defaultValue = -1
+                })
+            ) {
+                CustomerAddEditEventScreen(navController = navController)
             }
         }
     }

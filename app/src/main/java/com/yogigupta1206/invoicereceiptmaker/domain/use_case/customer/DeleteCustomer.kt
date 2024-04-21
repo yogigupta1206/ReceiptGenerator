@@ -6,7 +6,7 @@ import com.yogigupta1206.invoicereceiptmaker.domain.repository.CustomerRepositor
 class DeleteCustomer(
     private val customerRepository: CustomerRepository
 ) {
-    suspend operator fun invoke(customer: Customer) {
-        customerRepository.deleteCustomer(customer)
+    suspend operator fun invoke(customerId: Long) {
+        customerRepository.deleteCustomerById(customerId)
     }
 }

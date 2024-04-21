@@ -1,4 +1,4 @@
-package com.yogigupta1206.invoicereceiptmaker.presentation.business.component
+package com.yogigupta1206.invoicereceiptmaker.core.component
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -29,8 +29,8 @@ fun TextFieldWithTitle(
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 8.dp)
-                .padding(horizontal = 16.dp),
+                .padding(vertical = 2.dp)
+                .padding(horizontal = 8.dp),
             label = { Text(label) },
             value = text,
             onValueChange = onValueChange,

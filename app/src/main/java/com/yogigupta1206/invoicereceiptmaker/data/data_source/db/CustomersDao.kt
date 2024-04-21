@@ -3,6 +3,7 @@ package com.yogigupta1206.invoicereceiptmaker.data.data_source.db
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.yogigupta1206.invoicereceiptmaker.domain.model.Customer
@@ -17,10 +18,10 @@ interface CustomersDao {
     @Query("SELECT * FROM customer WHERE id = :id")
     suspend fun getCustomerById(id: Long): Customer?
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCustomer(customer: Customer)
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAllCustomers(customers: List<Customer>)
 
     @Update

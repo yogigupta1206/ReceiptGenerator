@@ -3,6 +3,7 @@ package com.yogigupta1206.invoicereceiptmaker.data.data_source.db
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.yogigupta1206.invoicereceiptmaker.domain.model.TnC
@@ -18,10 +19,10 @@ interface TncDao {
     @Query("SELECT * FROM tnc WHERE id = :id")
     suspend fun getTncById(id: Long): TnC
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTnc(tnc: TnC)
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTncList(tncList: List<TnC>)
 
     @Update

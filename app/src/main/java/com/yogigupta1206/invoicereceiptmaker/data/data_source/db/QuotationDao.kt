@@ -3,6 +3,7 @@ package com.yogigupta1206.invoicereceiptmaker.data.data_source.db
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.yogigupta1206.invoicereceiptmaker.domain.model.Quotation
@@ -12,13 +13,13 @@ import com.yogigupta1206.invoicereceiptmaker.domain.model.QuotationTerms
 @Dao
 interface QuotationDao {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertQuotation(item: Quotation)
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertQuotationTerms(terms: List<QuotationTerms>)
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertQuotationItems(items: List<QuotationItem>)
 
     @Update

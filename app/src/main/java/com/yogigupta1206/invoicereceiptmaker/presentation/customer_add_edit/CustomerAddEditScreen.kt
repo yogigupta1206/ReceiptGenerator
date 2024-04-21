@@ -1,12 +1,14 @@
-package com.yogigupta1206.invoicereceiptmaker.presentation.business
+package com.yogigupta1206.invoicereceiptmaker.presentation.customer_add_edit
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -17,7 +19,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
@@ -26,42 +27,40 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.yogigupta1206.invoicereceiptmaker.core.component.TopAppBarTitle
 import com.yogigupta1206.invoicereceiptmaker.core.component.TextFieldWithTitle
+import com.yogigupta1206.invoicereceiptmaker.core.component.TopAppBarTitle
 import kotlinx.coroutines.flow.collectLatest
 
-
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BusinessScreen(
-    navController: NavController, viewModel: BusinessViewModel = hiltViewModel()
+fun CustomerAddEditEventScreen(
+    navController: NavController,
+    viewModel: CustomerAddEditViewModel = hiltViewModel()
 ) {
-    val TAG = "BusinessScreen"
+
     val snackbarHostState = remember { SnackbarHostState() }
-    val state = rememberScrollState()
+    val scrollState = rememberScrollState()
 
     LaunchedEffect(key1 = true) {
         viewModel.eventFlow.collectLatest { event ->
             when (event) {
-                BusinessViewModel.UiEvent.SaveDetails -> {
-                    snackbarHostState.showSnackbar(
-                        message = "Details Saved", duration = SnackbarDuration.Short
-                    )
-                    navController.navigate("discover")
+                CustomerAddEditViewModel.UiEvent.SaveNote -> {
+                    navController.popBackStack()
                 }
 
-                is BusinessViewModel.UiEvent.ShowSnackBar -> {
-                    snackbarHostState.showSnackbar(event.message)
+                is CustomerAddEditViewModel.UiEvent.ShowSnackbar -> {
+                    snackbarHostState.showSnackbar(
+                        message = event.message,
+                    )
                 }
             }
+
         }
-        state.animateScrollTo(100)
     }
 
     Scaffold(topBar = {
@@ -70,7 +69,7 @@ fun BusinessScreen(
             titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
         ), title = {
             TopAppBarTitle(
-                title = "Update Business Info"
+                title = if (viewModel.customerId != null) "Update Info" else "Add Customer"
             )
         }, navigationIcon = {
             IconButton(onClick = {
@@ -94,97 +93,86 @@ fun BusinessScreen(
 
             Column(
                 modifier = Modifier
-                    .verticalScroll(state)
+                    .verticalScroll(scrollState)
                     .weight(1f)
 
             ) {
                 Spacer(modifier = Modifier.height(8.dp))
-                TextFieldWithTitle(label = "BusinessName",
-                    text = viewModel.businessName.value.toString(),
+                TextFieldWithTitle(label = "Name",
+                    text = viewModel.customerName.value,
                     onValueChange = {
-                        viewModel.onEvent(BusinessScreenEvent.EnteredBusinessName(it))
-                    })
-                Spacer(modifier = Modifier.height(16.dp))
-                TextFieldWithTitle(label = "Contact Name",
-                    text = viewModel.contactName.value.toString(),
-                    onValueChange = {
-                        viewModel.onEvent(BusinessScreenEvent.EnteredContactName(it))
+                        viewModel.onEvent(CustomerAddEditEvent.EnteredName(it))
                     })
                 Spacer(modifier = Modifier.height(16.dp))
                 TextFieldWithTitle(
                     label = "Email",
-                    text = viewModel.email.value.toString(),
+                    text = viewModel.customerEmail.value,
                     onValueChange = {
-                        viewModel.onEvent(BusinessScreenEvent.EnteredEmail(it))
+                        viewModel.onEvent(CustomerAddEditEvent.EnteredEmail(it))
                     })
                 Spacer(modifier = Modifier.height(16.dp))
                 TextFieldWithTitle(label = "Phone Number",
-                    text = viewModel.phone.value.toString(),
+                    text = viewModel.customerPhone.value,
                     onValueChange = {
-                        viewModel.onEvent(BusinessScreenEvent.EnteredPhone(it))
+                        viewModel.onEvent(CustomerAddEditEvent.EnteredPhone(it))
                     })
                 Spacer(modifier = Modifier.height(16.dp))
                 TextFieldWithTitle(label = "Address 1",
-                    text = viewModel.address1.value.toString(),
+                    text = viewModel.customerAddress1.value,
                     onValueChange = {
-                        viewModel.onEvent(BusinessScreenEvent.EnteredAddress1(it))
+                        viewModel.onEvent(CustomerAddEditEvent.EnteredAddress1(it))
                     })
                 Spacer(modifier = Modifier.height(16.dp))
                 TextFieldWithTitle(label = "Address 2",
-                    text = viewModel.address2.value.toString(),
+                    text = viewModel.customerAddress2.value,
                     onValueChange = {
-                        viewModel.onEvent(BusinessScreenEvent.EnteredAddress2(it))
-                    })
-                Spacer(modifier = Modifier.height(16.dp))
-                TextFieldWithTitle(label = "Address 3",
-                    text = viewModel.address3.value.toString(),
-                    onValueChange = {
-                        viewModel.onEvent(BusinessScreenEvent.EnteredAddress3(it))
+                        viewModel.onEvent(CustomerAddEditEvent.EnteredAddress2(it))
                     })
                 Spacer(modifier = Modifier.height(16.dp))
                 TextFieldWithTitle(label = "Other Info",
-                    text = viewModel.otherInfo.value.toString(),
+                    text = viewModel.customerOtherInfo.value,
                     onValueChange = {
-                        viewModel.onEvent(BusinessScreenEvent.EnteredOtherInfo(it))
+                        viewModel.onEvent(CustomerAddEditEvent.EnteredOtherInfo(it))
                     })
                 Spacer(modifier = Modifier.height(16.dp))
-                TextFieldWithTitle(label = "GSTIN",
-                    text = viewModel.gstPanVanLabel.value.toString(),
+                TextFieldWithTitle(label = "Shipping Address",
+                    text = viewModel.customerShippingAddress.value,
                     onValueChange = {
-                        viewModel.onEvent(BusinessScreenEvent.EnteredGstPanVanLabel(it))
+                        viewModel.onEvent(CustomerAddEditEvent.EnteredShippingAddress(it))
                     })
                 Spacer(modifier = Modifier.height(16.dp))
-                TextFieldWithTitle(label = "GSTIN Number",
-                    text = viewModel.gstPanVanNumber.value.toString(),
-                    onValueChange = {
-                        viewModel.onEvent(BusinessScreenEvent.EnteredGstPanVanNumber(it))
-                    })
-                Spacer(modifier = Modifier.height(16.dp))
-                TextFieldWithTitle(label = "Business Category",
-                    text = viewModel.businessCategory.value.toString(),
-                    onValueChange = {
-                        viewModel.onEvent(BusinessScreenEvent.EnteredBusinessCategory(it))
-                    })
-                Spacer(modifier = Modifier.height(16.dp))
-                TextFieldWithTitle(label = "Payment Details",
-                    text = viewModel.paymentDetails.value.toString(),
-                    onValueChange = {
-                        viewModel.onEvent(BusinessScreenEvent.EnteredPaymentDetails(it))
-                    })
-                Spacer(modifier = Modifier.height(8.dp))
             }
 
-            Button(
-                onClick = {
-                    viewModel.onEvent(BusinessScreenEvent.SaveBusinessDetails)
-                },
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 8.dp)
                     .padding(bottom = 16.dp)
                     .padding(horizontal = 16.dp)
             ) {
-                Text("Update")
+                if(viewModel.customerId != null) {
+                    Button(
+                        onClick = {
+                            viewModel.onEvent(CustomerAddEditEvent.DeleteCustomer)
+                        },
+                        modifier = Modifier
+                            .weight(1f)
+                    ) {
+                        Text("Remove")
+                    }
+                    Spacer(modifier = Modifier.width(16.dp))
+                }
+                Button(
+                    onClick = {
+                        viewModel.onEvent(CustomerAddEditEvent.SaveCustomer)
+                    },
+                    modifier = Modifier
+                        .weight(1f)
+                ) {
+                    Text(
+                        text = if (viewModel.customerId != null) "Update" else "Add"
+                    )
+                }
             }
 
         }

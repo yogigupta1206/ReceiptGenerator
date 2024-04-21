@@ -18,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -51,40 +52,39 @@ fun CustomersScreen(
                     contentDescription = "Localized description"
                 )
             }
-        }
-        )
+        })
     }) { innerPadding ->
-        
-        Box(modifier = Modifier
-            .padding(innerPadding)
-            .fillMaxSize()
+
+        Box(
+            modifier = Modifier
+                .padding(innerPadding)
+                .fillMaxSize()
+                .padding(horizontal = 8.dp, vertical = 4.dp)
         ) {
             LazyColumn(
-                modifier = Modifier.padding(innerPadding)
+                modifier = Modifier
             ) {
                 items(state.customers.size) { index ->
-                    CustomerItem(
-                        customer = state.customers[index],
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .clickable {
-                                navController.navigate(Screens.CustomerAddEdit.route + "?customerId=${state.customers[index].id}")
-                            }
-                    )
+                    CustomerItem(customer = state.customers[index],
+                        modifier = Modifier.padding(vertical = 4.dp),
+                        onClick = {
+                            navController.navigate(Screens.CustomerAddEdit.route + "?customerId=${state.customers[index].id}")
+                        })
                 }
             }
 
-            ExtendedFloatingActionButton(
+            ExtendedFloatingActionButton(modifier = Modifier
+                .padding(16.dp)
+                .align(Alignment.BottomEnd),
+                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
                 text = { Text(text = "Add Customer") },
+                expanded = true,
                 icon = { Icon(Icons.Filled.Add, "Add Customer") },
                 onClick = {
                     navController.navigate(Screens.CustomerAddEdit.route)
                 })
-
         }
-
-        
-
     }
 
 

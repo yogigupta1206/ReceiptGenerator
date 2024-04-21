@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -18,42 +20,53 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.yogigupta1206.invoicereceiptmaker.domain.model.Customer
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomerItem(
     customer: Customer,
     modifier: Modifier = Modifier,
+    onClick: () -> Unit
 ) {
 
-    Box(
+    ElevatedCard(
+        onClick = onClick,
         modifier = modifier
     ) {
-        Icon(
-            modifier = Modifier
-                .align(Alignment.TopEnd),
-            imageVector = Icons.Default.Edit,
-            contentDescription = "Edit customer details",
-            tint = MaterialTheme.colorScheme.surfaceTint
-        )
-
-        Column(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
-                .padding(end = 32.dp)
+                .padding(8.dp),
         ) {
-            Text(
-                text = customer.name ?: "",
-                style = MaterialTheme.typography.bodyMedium,
-                fontWeight = FontWeight.Bold
+            Icon(
+                modifier = Modifier
+                    .align(Alignment.CenterEnd),
+                imageVector = Icons.Default.Edit,
+                contentDescription = "Edit customer details",
+                tint = MaterialTheme.colorScheme.surfaceTint
             )
-            Spacer(modifier = Modifier.height(4.dp))
-            if (!customer.phone.isNullOrBlank()) Text(
-                text = customer.phone,
-                style = MaterialTheme.typography.bodySmall,
-                fontWeight = FontWeight.Light
-            )
+
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp)
+                    .padding(end = 32.dp)
+            ) {
+                Text(
+                    text = customer.name ?: "",
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontWeight = FontWeight.Bold
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                if (!customer.phone.isNullOrBlank()) Text(
+                    text = customer.phone,
+                    style = MaterialTheme.typography.bodySmall,
+                    fontWeight = FontWeight.Light
+                )
+            }
         }
     }
+
+
 
 
 }
