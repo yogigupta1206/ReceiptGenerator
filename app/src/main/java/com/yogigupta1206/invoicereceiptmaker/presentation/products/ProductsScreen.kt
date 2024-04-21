@@ -67,7 +67,7 @@ fun ProductsScreen(
                     ProductItem(product = state.products[index],
                         modifier = Modifier.padding(vertical = 4.dp),
                         onClick = {
-                            //navController.navigate(Screens.ProductAddEdit.route + "?productId=${state.products[index].id}")
+                            navController.navigate(Screens.ProductAddEdit.route + "?productId=${state.products[index].id}")
                         })
                 }
             }
@@ -81,7 +81,7 @@ fun ProductsScreen(
                 expanded = true,
                 icon = { Icon(Icons.Filled.Add, "Add Product") },
                 onClick = {
-                    navController.navigate(Screens.CustomerAddEdit.route)
+                    navController.navigate(Screens.ProductAddEdit.route)
                 })
         }
     }

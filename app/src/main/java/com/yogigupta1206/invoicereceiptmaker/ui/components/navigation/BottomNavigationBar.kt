@@ -23,8 +23,10 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.yogigupta1206.invoicereceiptmaker.core.Screens
 import com.yogigupta1206.invoicereceiptmaker.presentation.business.BusinessScreen
-import com.yogigupta1206.invoicereceiptmaker.presentation.customer_add_edit.CustomerAddEditEventScreen
+import com.yogigupta1206.invoicereceiptmaker.presentation.customer_add_edit.CustomerAddEditScreen
 import com.yogigupta1206.invoicereceiptmaker.presentation.customers.CustomersScreen
+import com.yogigupta1206.invoicereceiptmaker.presentation.product_add_edit.ProductAddEditScreen
+import com.yogigupta1206.invoicereceiptmaker.presentation.products.ProductsScreen
 
 @Composable
 fun BottomNavigationBar() {
@@ -91,19 +93,34 @@ fun BottomNavigationBar() {
                 //call our composable screens here
             }
             composable(Screens.Products.route) {
-                //call our composable screens here
+                ProductsScreen(navController = navController)
             }
 
             composable(
                 route = Screens.CustomerAddEdit.route + "?customerId={customerId}",
-                arguments = listOf(navArgument("customerId"
+                arguments = listOf(navArgument(
+                    "customerId"
                 ) {
                     type = NavType.LongType
                     defaultValue = -1
                 })
             ) {
-                CustomerAddEditEventScreen(navController = navController)
+                CustomerAddEditScreen(navController = navController)
             }
+
+            composable(
+                route = Screens.ProductAddEdit.route + "?productId={productId}",
+                arguments = listOf(navArgument(
+                    "productId"
+                ) {
+                    type = NavType.LongType
+                    defaultValue = -1
+                })
+            ) {
+                ProductAddEditScreen(navController = navController)
+            }
+
+
         }
     }
 }

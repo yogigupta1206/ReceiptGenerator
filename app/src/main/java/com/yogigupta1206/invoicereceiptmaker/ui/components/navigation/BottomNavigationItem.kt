@@ -38,12 +38,12 @@ data class BottomNavigationItem(
             BottomNavigationItem(
                 label = "Product",
                 icon = Icons.Filled.Email,
-                route = Screens.Customers.route
+                route = Screens.Products.route
             ),
             BottomNavigationItem(
                 label = "Items",
                 icon = Icons.Filled.List,
-                route = Screens.Customers.route
+                route = Screens.Items.route
             ),
         )
     }

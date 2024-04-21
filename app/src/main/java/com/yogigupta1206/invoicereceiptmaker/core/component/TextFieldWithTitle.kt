@@ -3,7 +3,7 @@ package com.yogigupta1206.invoicereceiptmaker.core.component
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,6 +22,7 @@ fun TextFieldWithTitle(
         fontSize = 16.sp
     ),
     singleLine: Boolean = true,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default
 ) {
     Box(
         modifier = modifier
@@ -36,6 +37,7 @@ fun TextFieldWithTitle(
             onValueChange = onValueChange,
             textStyle = textStyle,
             singleLine = singleLine,
+            keyboardOptions = keyboardOptions
         )
     }
 }

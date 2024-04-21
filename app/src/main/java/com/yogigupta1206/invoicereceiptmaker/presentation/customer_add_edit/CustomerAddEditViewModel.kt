@@ -16,7 +16,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CustomerAddEditViewModel @Inject constructor(
-    private val customerUseCases: CustomerUseCases, savedStateHandle: SavedStateHandle
+    private val customerUseCases: CustomerUseCases,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     companion object {
@@ -131,7 +132,7 @@ class CustomerAddEditViewModel @Inject constructor(
                             updatedAt = System.currentTimeMillis()
                         )
                         customerUseCases.addCustomer(customer)
-                        _eventFlow.emit(UiEvent.SaveNote)
+                        _eventFlow.emit(UiEvent.SaveCustomerDetails)
                     } catch (e: Exception) {
                         _eventFlow.emit(UiEvent.ShowSnackbar("Invalid: ${e.message}"))
                     }
@@ -143,7 +144,7 @@ class CustomerAddEditViewModel @Inject constructor(
 
     sealed class UiEvent {
         data class ShowSnackbar(val message: String) : UiEvent()
-        data object SaveNote : UiEvent()
+        data object SaveCustomerDetails : UiEvent()
     }
 
 }

@@ -17,7 +17,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -41,26 +40,28 @@ fun ProductItem(
                 .fillMaxSize()
                 .padding(8.dp),
         ) {
-            Icon(
-                modifier = Modifier
-                    .align(Alignment.TopEnd),
-                imageVector = Icons.Default.Edit,
-                contentDescription = "Edit customer details",
-                tint = MaterialTheme.colorScheme.surfaceTint
-            )
-
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(16.dp)
-                    .padding(end = 32.dp)
             ) {
-                Text(
-                    text = product.name ?: "",
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontWeight = FontWeight.Bold
-                )
-                Spacer(modifier = Modifier.height(4.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+
+                ) {
+                    Text(
+                        text = product.name ?: "",
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Icon(
+                        imageVector = Icons.Default.Edit,
+                        contentDescription = "Edit product details",
+                        tint = MaterialTheme.colorScheme.surfaceTint
+                    )
+                }
+                Spacer(modifier = Modifier.height(8.dp))
                 if (!product.description.isNullOrBlank())
                     Text(
                         text = product.description,
