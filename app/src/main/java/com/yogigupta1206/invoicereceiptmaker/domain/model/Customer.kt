@@ -13,7 +13,8 @@ data class Customer(
     val address1: String?,
     val address2: String?,
     val otherInfo: String?,
-    val shippingAddress: String?
+    val shippingAddress: String?,
+    val updatedAt: Long = System.currentTimeMillis()
 )
 
 class InvalidCustomerException(message: String): Exception(message)

@@ -38,6 +38,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.yogigupta1206.invoicereceiptmaker.core.component.TopAppBarTitle
 import com.yogigupta1206.invoicereceiptmaker.presentation.business.component.TextFieldWithTitle
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -76,12 +77,8 @@ fun BusinessScreen(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
             titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
         ), title = {
-            Text(
-                text= "Update Business Info",
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                fontStyle = MaterialTheme.typography.headlineSmall.fontStyle,
-                fontWeight = FontWeight.Bold,
+            TopAppBarTitle(
+                title = "Update Business Info"
             )
         }, navigationIcon = {
             IconButton(onClick = {

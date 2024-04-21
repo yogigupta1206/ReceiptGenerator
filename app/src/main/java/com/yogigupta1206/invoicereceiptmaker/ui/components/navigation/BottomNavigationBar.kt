@@ -13,15 +13,15 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.BlendMode.Companion.Screen
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.yogigupta1206.invoicereceiptmaker.core.Screens
 import com.yogigupta1206.invoicereceiptmaker.presentation.business.BusinessScreen
+import com.yogigupta1206.invoicereceiptmaker.presentation.customers.CustomersScreen
 
 @Composable
 fun BottomNavigationBar() {
@@ -79,6 +79,7 @@ fun BottomNavigationBar() {
             }
             composable(Screens.Customers.route) {
                 //call our composable screens here
+                CustomersScreen(navController = navController)
             }
             composable(Screens.Discover.route) {
                 //call our composable screens here

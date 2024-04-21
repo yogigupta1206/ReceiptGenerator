@@ -11,7 +11,8 @@ data class Product (
     val unit: String?,
     val gstPercentage: Double?,
     val description: String?,
-    val hsnCode: String?
+    val hsnCode: String?,
+    val updatedAt: Long = System.currentTimeMillis()
 ) {
     fun getPriceWithGst(): Double {
         return price + (price * (gstPercentage ?: 0.0) / 100)
