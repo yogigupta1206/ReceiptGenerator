@@ -19,6 +19,7 @@ data class Quotation(
     var otherChargesLabel: String? = "Other Charge",
     var otherCharges: Double = 0.0,
     var otherChargesTaxable: Boolean = false,
+    val otherChargesTax: Double = 0.0,
     var quotationTime: Long = System.currentTimeMillis(),
     var quotationTotal: Double = 0.0
 )
