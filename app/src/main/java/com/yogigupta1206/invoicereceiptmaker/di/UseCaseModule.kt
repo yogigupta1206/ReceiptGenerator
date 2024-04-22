@@ -3,6 +3,7 @@ package com.yogigupta1206.invoicereceiptmaker.di
 import com.yogigupta1206.invoicereceiptmaker.domain.repository.BusinessRepository
 import com.yogigupta1206.invoicereceiptmaker.domain.repository.CustomerRepository
 import com.yogigupta1206.invoicereceiptmaker.domain.repository.ProductRepository
+import com.yogigupta1206.invoicereceiptmaker.domain.repository.QuotationRepository
 import com.yogigupta1206.invoicereceiptmaker.domain.use_case.business.AddBusinessDetails
 import com.yogigupta1206.invoicereceiptmaker.domain.use_case.business.BusinessUseCases
 import com.yogigupta1206.invoicereceiptmaker.domain.use_case.business.GetBusinessDetails
@@ -16,6 +17,10 @@ import com.yogigupta1206.invoicereceiptmaker.domain.use_case.product.DeleteProdu
 import com.yogigupta1206.invoicereceiptmaker.domain.use_case.product.GetProduct
 import com.yogigupta1206.invoicereceiptmaker.domain.use_case.product.GetProducts
 import com.yogigupta1206.invoicereceiptmaker.domain.use_case.product.ProductUseCases
+import com.yogigupta1206.invoicereceiptmaker.domain.use_case.quotation.AddQuotation
+import com.yogigupta1206.invoicereceiptmaker.domain.use_case.quotation.GetAllQuotationWithCustomer
+import com.yogigupta1206.invoicereceiptmaker.domain.use_case.quotation.QuotationUseCases
+import com.yogigupta1206.invoicereceiptmaker.domain.use_case.quotation.UpdateQuotation
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -56,12 +61,24 @@ class UseCaseModule {
     @Singleton
     fun provideBusinessUseCases(
         businessRepository: BusinessRepository,
-    ): BusinessUseCases{
+    ): BusinessUseCases {
         return BusinessUseCases(
             GetBusinessDetails(businessRepository),
             AddBusinessDetails(businessRepository)
         )
     }
 
+
+    @Provides
+    @Singleton
+    fun provideQuotationUseCases(
+        quotationRepository: QuotationRepository,
+    ): QuotationUseCases {
+        return QuotationUseCases(
+            AddQuotation(quotationRepository),
+            GetAllQuotationWithCustomer(quotationRepository),
+            UpdateQuotation(quotationRepository)
+        )
+    }
 
 }
