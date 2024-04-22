@@ -12,8 +12,7 @@ class QuotationRepositoryImpl(
     private val quotationDao: QuotationDao
 ) : QuotationRepository {
 
-    override suspend fun insertNewQuotation(quotation: Quotation, itemList: List<QuotationItem>) {
-
+    override suspend fun addQuotation(quotation: Quotation, itemList: List<QuotationItem>) {
         val quotationId = quotationDao.insertQuotationAndGetId(quotation)
         val quotationItems = itemList.map { it.copy(quotationId = quotationId) }
         quotationDao.insertQuotationItems(quotationItems)

@@ -22,7 +22,7 @@ class AddQuotation(
             throw IllegalArgumentException("Please add product")
 
         quotation.customerId = customer.id
-        quotationRepository.insertNewQuotation(quotation, itemList)
+        quotationRepository.addQuotation(quotation, itemList)
     }
 
 }

@@ -7,11 +7,10 @@ import com.yogigupta1206.invoicereceiptmaker.domain.model.QuotationWithCustomerA
 import kotlinx.coroutines.flow.Flow
 
 interface QuotationRepository {
-    suspend fun insertNewQuotation(quotation: Quotation, itemList: List<QuotationItem>)
+    suspend fun addQuotation(quotation: Quotation, itemList: List<QuotationItem>)
     suspend fun deleteQuotationById(quotationId: Long)
     suspend fun updateQuotation(quotation: Quotation, itemList: List<QuotationItem>)
     fun getAllQuotationsWithCustomer(): Flow<List<QuotationWithCustomer>>
-
     suspend fun getQuotationAndQuotationItemsById(quotationId: Long): QuotationWithCustomerAndItems
 
 }
