@@ -77,7 +77,7 @@ fun QuotationsScreen(
                 .align(Alignment.BottomEnd),
                 containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                 contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
-                text = { Text(text = "Add Product") },
+                text = { Text(text = "Add Quotation") },
                 expanded = true,
                 icon = { Icon(Icons.Filled.Add, "Make Quotation") },
                 onClick = {

@@ -25,6 +25,7 @@ import com.yogigupta1206.invoicereceiptmaker.core.Screens
 import com.yogigupta1206.invoicereceiptmaker.presentation.business.BusinessScreen
 import com.yogigupta1206.invoicereceiptmaker.presentation.customer_add_edit.CustomerAddEditScreen
 import com.yogigupta1206.invoicereceiptmaker.presentation.customers.CustomersScreen
+import com.yogigupta1206.invoicereceiptmaker.presentation.make_quotation.MakeQuotationScreen
 import com.yogigupta1206.invoicereceiptmaker.presentation.product_add_edit.ProductAddEditScreen
 import com.yogigupta1206.invoicereceiptmaker.presentation.products.ProductsScreen
 
@@ -76,17 +77,18 @@ fun BottomNavigationBar() {
     ) { paddingValues ->
         NavHost(
             navController = navController,
-            startDestination = Screens.Discover.route,
+            startDestination = Screens.MakeQuotation.route,
             modifier = Modifier.padding(paddingValues = paddingValues)
         ) {
             composable(Screens.Business.route) {
-                BusinessScreen(navController =navController)
+                BusinessScreen(navController = navController)
             }
             composable(Screens.Customers.route) {
                 //call our composable screens here
                 CustomersScreen(navController = navController)
             }
-            composable(Screens.Discover.route) {
+            composable(Screens.MakeQuotation.route) {
+                MakeQuotationScreen(navController = navController)
                 //call our composable screens here
             }
             composable(Screens.Items.route) {
