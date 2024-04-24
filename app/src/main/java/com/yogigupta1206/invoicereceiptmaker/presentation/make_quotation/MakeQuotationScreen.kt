@@ -69,7 +69,7 @@ fun MakeQuotationScreen(
 
             QuotationTopSection(
                 modifier = Modifier
-                    .background(MaterialTheme.colorScheme.secondaryContainer),
+                    .background(MaterialTheme.colorScheme.surfaceVariant),
                 quotationTime = viewModel.quotationTime.value,
                 onClick = {
                     // TODO: Show Date Picker
@@ -80,7 +80,7 @@ fun MakeQuotationScreen(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .clip(RoundedCornerShape(8.dp))
-                    .background(MaterialTheme.colorScheme.secondaryContainer),
+                    .background(MaterialTheme.colorScheme.surfaceVariant),
                 label = "TO"
             )
             Spacer(modifier = Modifier.height(16.dp))
@@ -88,7 +88,7 @@ fun MakeQuotationScreen(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .clip(RoundedCornerShape(8.dp))
-                    .background(MaterialTheme.colorScheme.secondaryContainer),
+                    .background(MaterialTheme.colorScheme.surfaceVariant),
                 label = "PRODUCTS"
             )
             Spacer(modifier = Modifier.height(16.dp))
@@ -96,7 +96,7 @@ fun MakeQuotationScreen(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .clip(RoundedCornerShape(8.dp))
-                    .background(MaterialTheme.colorScheme.secondaryContainer),
+                    .background(MaterialTheme.colorScheme.surfaceVariant),
                 label = "OTHER CHARGE"
             )
             Spacer(modifier = Modifier.height(16.dp))
