@@ -17,6 +17,8 @@ sealed class MakeQuotationEvent {
     data class DeleteProduct(val quotationItemWithProduct: QuotationItemWithProduct) :
         MakeQuotationEvent()
 
+    data class ShowBottomSheet(val show: Boolean) : MakeQuotationEvent()
+
     data object GenerateQuotation : MakeQuotationEvent()
 
 

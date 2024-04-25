@@ -1,6 +1,5 @@
 package com.yogigupta1206.invoicereceiptmaker.presentation.customers
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -24,8 +23,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.yogigupta1206.invoicereceiptmaker.core.Screens
+import com.yogigupta1206.invoicereceiptmaker.core.component.CustomerCardView
 import com.yogigupta1206.invoicereceiptmaker.core.component.TopAppBarTitle
-import com.yogigupta1206.invoicereceiptmaker.presentation.customers.components.CustomerItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -65,9 +64,12 @@ fun CustomersScreen(
                 modifier = Modifier
             ) {
                 items(state.customers.size) { index ->
-                    CustomerItem(customer = state.customers[index],
+                    CustomerCardView(customer = state.customers[index],
                         modifier = Modifier.padding(vertical = 4.dp),
-                        onClick = {
+                        cardOnClick = {
+                            navController.navigate(Screens.CustomerAddEdit.route + "?customerId=${state.customers[index].id}")
+                        },
+                        iconOnClick = {
                             navController.navigate(Screens.CustomerAddEdit.route + "?customerId=${state.customers[index].id}")
                         })
                 }

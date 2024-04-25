@@ -9,6 +9,8 @@ import com.yogigupta1206.invoicereceiptmaker.domain.model.Customer
 import com.yogigupta1206.invoicereceiptmaker.domain.model.QuotationItemWithProduct
 import com.yogigupta1206.invoicereceiptmaker.domain.use_case.quotation.QuotationUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import javax.inject.Inject
 
 @HiltViewModel
@@ -42,6 +44,11 @@ class MakeQuotationViewModel @Inject constructor(
     private val _quotationTime = mutableLongStateOf(System.currentTimeMillis())
     val quotationTime: State<Long> = _quotationTime
 
+    private val _showBottomSheet = mutableStateOf(false)
+    val showBottomSheet: State<Boolean> = _showBottomSheet
+
+    private val _eventFlow = MutableSharedFlow<UiEvent>()
+    val eventFlow = _eventFlow.asSharedFlow()
 
     fun onEvent(event: MakeQuotationEvent) {
         when (event) {
@@ -71,9 +78,26 @@ class MakeQuotationViewModel @Inject constructor(
                 _quotationTime.longValue = event.date
             }
 
-            MakeQuotationEvent.GenerateQuotation -> TODO()
+            MakeQuotationEvent.GenerateQuotation -> {
+            }
 
+            is MakeQuotationEvent.ShowBottomSheet -> {
+                if (event.show) {
+                    _showBottomSheet.value = true
+                    _eventFlow.tryEmit(UiEvent.ShowBottomSheet(true))
+                } else {
+                    _showBottomSheet.value = false
+                    _eventFlow.tryEmit(UiEvent.ShowBottomSheet(false))
+                }
+            }
         }
+    }
+
+    sealed class UiEvent {
+        data object ShowDatePicker : UiEvent()
+        data class ShowBottomSheet(val show: Boolean) : UiEvent()
+        data class ShowSnackbar(val message: String) : UiEvent()
+        data object SaveQuotationDetails : UiEvent()
     }
 
 
