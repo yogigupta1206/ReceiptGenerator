@@ -15,17 +15,18 @@ import androidx.room.PrimaryKey
 )
 data class Quotation(
     @PrimaryKey(autoGenerate = true) val id: Long? = null,
-    var customerId: Long,
-    var otherChargesLabel: String? = "Other Charge",
-    var otherCharges: Double = 0.0,
-    var otherChargesTaxable: Boolean = false,
+    val customerId: Long? = null,
+    val otherChargesLabel: String? = "Other Charge",
+    val otherCharges: Double = 0.0,
+    val otherChargesTaxable: Boolean = false,
     val otherChargesTax: Double = 0.0,
-    var quotationTime: Long = System.currentTimeMillis(),
-    var quotationTotal: Double = 0.0
+    val quotationTime: Long = System.currentTimeMillis(),
+    val quotationTotal: Double = 0.0,
+    val quotationComplete: Boolean = false
 )
 
 @Entity(
-    primaryKeys = ["quotationId", "termsId"], foreignKeys = [ForeignKey(
+    foreignKeys = [ForeignKey(
         entity = TnC::class,
         parentColumns = arrayOf("id"),
         childColumns = arrayOf("termsId"),
@@ -39,11 +40,12 @@ data class Quotation(
     indices = [Index(value = ["termsId"])]
 )
 data class QuotationTerms(
+    @PrimaryKey(autoGenerate = true) val id: Long? = null,
     val quotationId: Long, val termsId: Long
 )
 
 @Entity(
-    primaryKeys = ["quotationId", "productId"], foreignKeys = [ForeignKey(
+    foreignKeys = [ForeignKey(
         entity = Product::class,
         parentColumns = arrayOf("id"),
         childColumns = arrayOf("productId"),
@@ -57,11 +59,15 @@ data class QuotationTerms(
     indices = [Index(value = ["productId"])]
 )
 data class QuotationItem(
-    var quotationId: Long = -1,
+    @PrimaryKey(autoGenerate = true) val id: Long? = null,
+    val quotationId: Long = -1,
     val productId: Long,
     var quantity: Int = 1,
-    var discountType: QuotationDiscountType = QuotationDiscountType.PERCENTAGE,
-    var discount: Double = 0.0,
+    val price: Long,
+    val gst: Double = 0.0,
+    val discountType: QuotationDiscountType = QuotationDiscountType.PERCENTAGE,
+    val discount: Double = 0.0,
+    val description: String,
 )
 
 

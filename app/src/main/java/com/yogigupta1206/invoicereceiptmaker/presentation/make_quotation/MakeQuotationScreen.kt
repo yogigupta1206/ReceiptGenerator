@@ -36,6 +36,7 @@ import com.yogigupta1206.invoicereceiptmaker.core.component.OtherChargesBottomSh
 import com.yogigupta1206.invoicereceiptmaker.core.component.TopAppBarTitle
 import com.yogigupta1206.invoicereceiptmaker.presentation.make_quotation.MakeQuotationViewModel.UiEvent.SaveQuotationDetails
 import com.yogigupta1206.invoicereceiptmaker.presentation.make_quotation.components.LabelsSection
+import com.yogigupta1206.invoicereceiptmaker.presentation.make_quotation.components.OtherChargesSection
 import com.yogigupta1206.invoicereceiptmaker.presentation.make_quotation.components.QuotationItemSection
 import com.yogigupta1206.invoicereceiptmaker.presentation.make_quotation.components.QuotationTopSection
 import kotlinx.coroutines.flow.collectLatest
@@ -43,32 +44,51 @@ import kotlinx.coroutines.flow.collectLatest
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MakeQuotationScreen(
-    navController: NavController? = null,
+    navController: NavController,
     viewModel: MakeQuotationViewModel = hiltViewModel()
 ) {
+    val TAG = "MakeQuotationScreen"
+
+    val state = viewModel.makeQuotationState.value
+    val otherChargesState = viewModel.otherChargesState.value
     val snackbarHostState = remember { SnackbarHostState() }
+    val bottomSheetSnackbarHostState = remember { SnackbarHostState() }
     val scrollState = rememberScrollState()
     val sheetState = rememberModalBottomSheetState()
 
     LaunchedEffect(key1 = true) {
         viewModel.eventFlow.collectLatest { event ->
+            Log.d(TAG, "Event: $event")
             when (event) {
                 SaveQuotationDetails -> {
                     snackbarHostState.showSnackbar(
                         message = "Quotation Saved"
                     )
-                    navController?.popBackStack()
+                    navController.popBackStack()
                 }
 
-                MakeQuotationViewModel.UiEvent.ShowDatePicker -> TODO()
-                is MakeQuotationViewModel.UiEvent.ShowSnackbar -> TODO()
+                MakeQuotationViewModel.UiEvent.ShowDatePicker -> {
+
+                }
+
+                is MakeQuotationViewModel.UiEvent.ShowSnackbar -> {
+                    snackbarHostState.showSnackbar(
+                        message = event.message
+                    )
+                }
+
                 is MakeQuotationViewModel.UiEvent.ShowBottomSheet -> {
                     if (event.show) {
                         sheetState.show()
                     } else {
                         sheetState.hide()
                     }
+                }
 
+                is MakeQuotationViewModel.UiEvent.ShowBottomSheetSnackBar -> {
+                    bottomSheetSnackbarHostState.showSnackbar(
+                        message = event.message
+                    )
                 }
             }
         }
@@ -104,7 +124,7 @@ fun MakeQuotationScreen(
             QuotationTopSection(
                 modifier = Modifier
                     .background(MaterialTheme.colorScheme.surfaceVariant),
-                quotationTime = viewModel.quotationTime.value,
+                quotationTime = state.quotationTime,
                 onClick = {
                     // TODO: Show Date Picker
                 }
@@ -140,13 +160,13 @@ fun MakeQuotationScreen(
                     .background(MaterialTheme.colorScheme.surfaceVariant),
                 label = "PRODUCTS",
                 onClick = {
-
+                    viewModel.onEvent(MakeQuotationEvent.AddProduct)
                 }
             )
             QuotationItemSection(
                 modifier = Modifier
                     .padding(horizontal = 8.dp),
-                items = viewModel.quotationItemList.value,
+                state = state,
                 onDeleteClicked = {
 
                 },
@@ -162,38 +182,52 @@ fun MakeQuotationScreen(
                     .background(MaterialTheme.colorScheme.surfaceVariant),
                 label = "OTHER CHARGE",
                 onClick = {
-                    Log.d("MakeQuotationScreen", "Other Charge Clicked")
-                    viewModel.onEvent(MakeQuotationEvent.ShowBottomSheet(true))
+                    viewModel.onEvent(MakeQuotationEvent.ClickedOtherChargesPlusButton(true))
                 }
             )
-            Spacer(modifier = Modifier.height(16.dp))
+            if (state.otherChargesLabel.isNotBlank()) {
+                Spacer(modifier = Modifier.height(8.dp))
+                OtherChargesSection(
+                    modifier = Modifier
+                        .padding(16.dp),
+                    state = state,
+                    onDeleteClicked = {
+                        // TODO: Delete Other Charges
+                    },
+                    onItemClicked = {
+                        viewModel.onEvent(MakeQuotationEvent.ClickedOtherChargesPlusButton(true))
+                    }
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+            Spacer(modifier = Modifier.height(8.dp))
         }
 
         OtherChargesBottomSheet(
-            modifier = Modifier,
             sheetState = sheetState,
-            showBottomSheet = viewModel.showBottomSheet.value,
-            otherChargesLabel = viewModel.otherChargesLabel.value,
-            otherChargesValue = viewModel.otherChargesValue.value,
-            checkBoxChecked = viewModel.otherChargesTaxable.value,
-            gstValue = viewModel.otherChargesTax.value,
+            bottomSheetSnackbarHostState = bottomSheetSnackbarHostState,
+            showBottomSheet = state.showBottomSheet,
+            otherChargesLabel = otherChargesState.otherChargesLabel,
+            otherChargesValue = otherChargesState.otherChargesAmount,
+            checkBoxChecked = otherChargesState.otherChargesIsTaxable,
+            gstValue = otherChargesState.otherChargesTax,
             onSaveClick = {
-
+                viewModel.onEvent(MakeQuotationEvent.UpdateBottonSheet)
             },
             onDismissRequest = {
-                viewModel.onEvent(MakeQuotationEvent.ShowBottomSheet(false))
+                viewModel.onEvent(MakeQuotationEvent.ClickedBottomSheetDismiss)
             },
             onLabelNameChange = {
-
+                viewModel.onEvent(MakeQuotationEvent.EnteredOtherChargesLabel(it))
             },
             onAmountChange = {
-
+                viewModel.onEvent(MakeQuotationEvent.EnteredOtherChargesValue(it))
             },
             onTaxChange = {
-
+                viewModel.onEvent(MakeQuotationEvent.EnteredOtherChargesIsTaxable(it))
             },
             onTaxAmountChange = {
-
+                viewModel.onEvent(MakeQuotationEvent.EnteredOtherChargesTax(it))
             }
         )
 

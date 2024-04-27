@@ -18,9 +18,12 @@ import com.yogigupta1206.invoicereceiptmaker.domain.use_case.product.GetProduct
 import com.yogigupta1206.invoicereceiptmaker.domain.use_case.product.GetProducts
 import com.yogigupta1206.invoicereceiptmaker.domain.use_case.product.ProductUseCases
 import com.yogigupta1206.invoicereceiptmaker.domain.use_case.quotation.AddQuotation
+import com.yogigupta1206.invoicereceiptmaker.domain.use_case.quotation.GetAllProductsOfQuotation
 import com.yogigupta1206.invoicereceiptmaker.domain.use_case.quotation.GetAllQuotationWithCustomer
 import com.yogigupta1206.invoicereceiptmaker.domain.use_case.quotation.QuotationUseCases
+import com.yogigupta1206.invoicereceiptmaker.domain.use_case.quotation.SaveQuotation
 import com.yogigupta1206.invoicereceiptmaker.domain.use_case.quotation.UpdateQuotation
+import com.yogigupta1206.invoicereceiptmaker.domain.use_case.quotation.VerifyOtherCharges
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -77,7 +80,10 @@ class UseCaseModule {
         return QuotationUseCases(
             AddQuotation(quotationRepository),
             GetAllQuotationWithCustomer(quotationRepository),
-            UpdateQuotation(quotationRepository)
+            UpdateQuotation(quotationRepository),
+            GetAllProductsOfQuotation(quotationRepository),
+            SaveQuotation(quotationRepository),
+            VerifyOtherCharges()
         )
     }
 

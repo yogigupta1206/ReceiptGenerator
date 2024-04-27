@@ -5,28 +5,26 @@ import com.yogigupta1206.invoicereceiptmaker.domain.model.Quotation
 import com.yogigupta1206.invoicereceiptmaker.domain.model.QuotationItem
 import com.yogigupta1206.invoicereceiptmaker.domain.repository.QuotationRepository
 
-class UpdateQuotation(
+class SaveQuotation(
     private val quotationRepository: QuotationRepository
 ) {
 
+    @Throws(IllegalArgumentException::class)
     suspend operator fun invoke(
         customer: Customer?,
         quotation: Quotation,
         itemList: List<QuotationItem>
     ) {
-        if (customer == null) {
+        if (customer?.id == null)
             throw IllegalArgumentException("Please add customer")
-        }
-        if (itemList.isEmpty()) {
+
+        if (itemList.isEmpty())
             throw IllegalArgumentException("Please add product")
-        }
-        if (customer.id == null) {
-            throw IllegalArgumentException("Customer id not found")
-        }
+
         val updatedQuotation = quotation.copy(
             customerId = customer.id
         )
-        quotationRepository.updateQuotation(updatedQuotation, itemList)
-    }
 
+        quotationRepository.saveQuotation(updatedQuotation, itemList)
+    }
 }

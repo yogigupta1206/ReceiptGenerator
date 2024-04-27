@@ -1,6 +1,13 @@
 package com.yogigupta1206.invoicereceiptmaker.domain.model
 
+import androidx.room.Embedded
+import androidx.room.Relation
+
 data class QuotationItemWithProduct(
-    val product: Product,
-    val quotationItem: QuotationItem
+    @Embedded val quotationItem: QuotationItem,
+    @Relation(
+        parentColumn = "productId",
+        entityColumn = "id"
+    )
+    val product: Product
 )

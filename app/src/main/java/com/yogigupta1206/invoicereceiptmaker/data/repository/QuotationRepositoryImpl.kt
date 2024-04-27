@@ -3,8 +3,8 @@ package com.yogigupta1206.invoicereceiptmaker.data.repository
 import com.yogigupta1206.invoicereceiptmaker.data.data_source.db.QuotationDao
 import com.yogigupta1206.invoicereceiptmaker.domain.model.Quotation
 import com.yogigupta1206.invoicereceiptmaker.domain.model.QuotationItem
+import com.yogigupta1206.invoicereceiptmaker.domain.model.QuotationItemWithProduct
 import com.yogigupta1206.invoicereceiptmaker.domain.model.QuotationWithCustomer
-import com.yogigupta1206.invoicereceiptmaker.domain.model.QuotationWithCustomerAndItems
 import com.yogigupta1206.invoicereceiptmaker.domain.repository.QuotationRepository
 import kotlinx.coroutines.flow.Flow
 
@@ -12,10 +12,14 @@ class QuotationRepositoryImpl(
     private val quotationDao: QuotationDao
 ) : QuotationRepository {
 
-    override suspend fun addQuotation(quotation: Quotation, itemList: List<QuotationItem>) {
-        val quotationId = quotationDao.insertQuotationAndGetId(quotation)
-        val quotationItems = itemList.map { it.copy(quotationId = quotationId) }
+    override suspend fun saveQuotation(quotation: Quotation, itemList: List<QuotationItem>) {
+        quotationDao.insertQuotation(quotation)
+        val quotationItems = itemList.map { it.copy(quotationId = quotation.id ?: -1) }
         quotationDao.insertQuotationItems(quotationItems)
+    }
+
+    override suspend fun addQuotation(quotation: Quotation): Long {
+        return quotationDao.insertQuotationAndGetId(quotation)
     }
 
     override suspend fun deleteQuotationById(quotationId: Long) {
@@ -37,8 +41,12 @@ class QuotationRepositoryImpl(
         return quotationDao.getAllQuotationsWithCustomerDetails()
     }
 
-    override suspend fun getQuotationAndQuotationItemsById(quotationId: Long): QuotationWithCustomerAndItems {
-        return quotationDao.getQuotationsWithCustomerAndItemsById(quotationId)
+    override fun getQuotationAndQuotationItemsById(quotationId: Long): Flow<List<QuotationItemWithProduct>> {
+        return quotationDao.getQuotationItemWithProductByQuotationId(quotationId)
+    }
+
+    override fun getAllProductsOfQuotation(quotationId: Long): Flow<List<QuotationItem>> {
+        return quotationDao.getAllProductsOfQuotation(quotationId)
     }
 
 }

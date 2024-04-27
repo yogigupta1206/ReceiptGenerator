@@ -9,6 +9,7 @@ import androidx.room.Transaction
 import androidx.room.Update
 import com.yogigupta1206.invoicereceiptmaker.domain.model.Quotation
 import com.yogigupta1206.invoicereceiptmaker.domain.model.QuotationItem
+import com.yogigupta1206.invoicereceiptmaker.domain.model.QuotationItemWithProduct
 import com.yogigupta1206.invoicereceiptmaker.domain.model.QuotationTerms
 import com.yogigupta1206.invoicereceiptmaker.domain.model.QuotationWithCustomer
 import com.yogigupta1206.invoicereceiptmaker.domain.model.QuotationWithCustomerAndItems
@@ -23,7 +24,7 @@ interface QuotationDao {
 
     @Transaction
     @Query("SELECT * FROM Quotation WHERE id = :quotationId")
-    suspend fun getQuotationsWithCustomerAndItemsById(quotationId: Long): QuotationWithCustomerAndItems
+    fun getQuotationsWithCustomerAndItemsById(quotationId: Long): Flow<QuotationWithCustomerAndItems>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertQuotationAndGetId(item: Quotation): Long
@@ -65,7 +66,11 @@ interface QuotationDao {
     suspend fun deleteQuotationsByCustomerId(customerId: Long)
 
     @Query("SELECT * FROM QuotationItem WHERE quotationId = :quotationId")
-    suspend fun getQuotationItemsByQuotationId(quotationId: Long): List<QuotationItem>
+    fun getQuotationItemsByQuotationId(quotationId: Long): Flow<List<QuotationItem>>
+
+    @Transaction
+    @Query("SELECT * FROM QuotationItem WHERE quotationId = :quotationId")
+    fun getQuotationItemWithProductByQuotationId(quotationId: Long): Flow<List<QuotationItemWithProduct>>
 
     @Query("DELETE FROM QuotationItem WHERE quotationId = :quotationId")
     suspend fun deleteQuotationItemsByQuotationId(quotationId: Long)
@@ -75,5 +80,8 @@ interface QuotationDao {
 
     @Query("DELETE FROM QuotationTerms WHERE quotationId = :quotationId")
     suspend fun deleteQuotationTermsByQuotationId(quotationId: Long)
+
+    @Query("SELECT * FROM QuotationItem WHERE quotationId = :quotationId")
+    fun getAllProductsOfQuotation(quotationId: Long): Flow<List<QuotationItem>>
 
 }
