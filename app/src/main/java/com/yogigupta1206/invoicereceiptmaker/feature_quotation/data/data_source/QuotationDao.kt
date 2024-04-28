@@ -28,10 +28,13 @@ interface QuotationDao {
     fun getQuotationsWithCustomerAndItemsById(quotationId: Long): Flow<QuotationWithCustomerAndItems>
 
     @Query("SELECT * FROM Customer WHERE id IN (SELECT customerId FROM Quotation WHERE id = :quotationId)")
-    fun getCustomerOfQuotationId(quotationId: Long): Flow<Customer>
+    fun getCustomerOfQuotationId(quotationId: Long): Flow<Customer?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertQuotationAndGetId(item: Quotation): Long
+
+    @Update
+    fun updateCustomerInQuotation(quotation: Quotation)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertQuotationTerms(terms: List<QuotationTerms>)
@@ -59,6 +62,9 @@ interface QuotationDao {
 
     @Query("DELETE FROM Quotation WHERE id = :id")
     suspend fun deleteQuotationById(id: Long)
+
+    @Query("DELETE FROM QuotationItem WHERE id = :id")
+    suspend fun deleteQuotationItemById(id: Long)
 
     @Delete
     suspend fun deleteQuotationItems(items: List<QuotationItem>)
@@ -93,5 +99,6 @@ interface QuotationDao {
 
     @Query("SELECT * FROM QuotationItem WHERE quotationId = :quotationId")
     fun getAllProductsOfQuotation(quotationId: Long): Flow<List<QuotationItem>>
+
 
 }

@@ -32,91 +32,93 @@ fun QuotationItemCardView(
     onItemClicked: () -> Unit,
 ) {
 
-    ElevatedCard(
-        onClick = onItemClicked,
-        modifier = modifier
-    ) {
-        Box(
+    Box(modifier = modifier) {
+        ElevatedCard(
+            onClick = onItemClicked,
             modifier = Modifier
-                .padding(2.dp),
         ) {
-            Column(
+            Box(
                 modifier = Modifier
-                    .padding(13.dp)
+                    .padding(2.dp),
             ) {
-                Row(
+                Column(
                     modifier = Modifier
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
-
+                        .padding(13.dp)
                 ) {
-                    Text(
-                        text = item.product.name ?: "",
-                        style = MaterialTheme.typography.bodyMedium,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Icon(
-                        modifier = Modifier.clickable(onClick = onDeleteClicked),
-                        imageVector = Icons.Default.Delete,
-                        contentDescription = "Delete product",
-                        tint = MaterialTheme.colorScheme.surfaceTint
-                    )
-                }
-                Spacer(modifier = Modifier.height(4.dp))
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
 
-                ) {
-                    Text(
-                        modifier = Modifier,
-                        text = "Amount",
-                        style = MaterialTheme.typography.bodySmall,
-                        fontWeight = FontWeight.Light
-                    )
-                    Text(
-                        text = "${item.quotationItem.quantity} * ${item.product.price} = ${item.quotationItem.quantity * item.product.price}",
-                        style = MaterialTheme.typography.bodySmall,
-                        fontWeight = FontWeight.Light
-                    )
-                }
-                Spacer(modifier = Modifier.height(4.dp))
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = item.product.name ?: "",
+                            style = MaterialTheme.typography.bodyMedium,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Icon(
+                            modifier = Modifier.clickable(onClick = onDeleteClicked),
+                            imageVector = Icons.Default.Delete,
+                            contentDescription = "Delete product",
+                            tint = MaterialTheme.colorScheme.surfaceTint
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
 
-                ) {
-                    Text(
-                        modifier = Modifier,
-                        text = "Discount ${if (item.quotationItem.discountType == DiscountType.PERCENTAGE) "(${item.quotationItem.discount}%)" else ""}:",
-                        style = MaterialTheme.typography.bodySmall,
-                        fontWeight = FontWeight.Light
-                    )
-                    Text(
-                        text = "-${if (item.quotationItem.discountType == DiscountType.PERCENTAGE) (item.quotationItem.quantity * item.product.price) * (item.quotationItem.discount / 100) else item.quotationItem.discount}",
-                        style = MaterialTheme.typography.bodySmall,
-                        fontWeight = FontWeight.Light
-                    )
-                }
-                Spacer(modifier = Modifier.height(4.dp))
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            modifier = Modifier,
+                            text = "Amount",
+                            style = MaterialTheme.typography.bodySmall,
+                            fontWeight = FontWeight.Light
+                        )
+                        Text(
+                            text = "${item.quotationItem.quantity} * ${item.product.price} = ${item.quotationItem.quantity * item.product.price}",
+                            style = MaterialTheme.typography.bodySmall,
+                            fontWeight = FontWeight.Light
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
 
-                ) {
-                    Text(
-                        modifier = Modifier,
-                        text = "Total amount",
-                        style = MaterialTheme.typography.bodySmall,
-                        fontWeight = FontWeight.Light
-                    )
-                    Text(
-                        text = "${item.quotationItem.quantity * item.product.price - if (item.quotationItem.discountType == DiscountType.PERCENTAGE) (item.quotationItem.quantity * item.product.price) * (item.quotationItem.discount / 100) else item.quotationItem.discount}",
-                        style = MaterialTheme.typography.bodySmall,
-                        fontWeight = FontWeight.Bold
-                    )
-                }
+                    ) {
+                        Text(
+                            modifier = Modifier,
+                            text = "Discount ${if (item.quotationItem.discountType == DiscountType.PERCENTAGE) "(${item.quotationItem.discount}%)" else ""}:",
+                            style = MaterialTheme.typography.bodySmall,
+                            fontWeight = FontWeight.Light
+                        )
+                        Text(
+                            text = "-${if (item.quotationItem.discountType == DiscountType.PERCENTAGE) (item.quotationItem.quantity * item.product.price) * (item.quotationItem.discount / 100) else item.quotationItem.discount}",
+                            style = MaterialTheme.typography.bodySmall,
+                            fontWeight = FontWeight.Light
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
 
+                    ) {
+                        Text(
+                            modifier = Modifier,
+                            text = "Total amount",
+                            style = MaterialTheme.typography.bodySmall,
+                            fontWeight = FontWeight.Light
+                        )
+                        Text(
+                            text = "${item.quotationItem.quantity * item.product.price - if (item.quotationItem.discountType == DiscountType.PERCENTAGE) (item.quotationItem.quantity * item.product.price) * (item.quotationItem.discount / 100) else item.quotationItem.discount}",
+                            style = MaterialTheme.typography.bodySmall,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+
+                }
             }
         }
     }

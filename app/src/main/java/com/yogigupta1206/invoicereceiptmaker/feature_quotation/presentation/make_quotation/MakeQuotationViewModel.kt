@@ -7,6 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.model.Quotation
+import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.model.QuotationItemWithProduct
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.use_case.QuotationUseCases
 import com.yogigupta1206.invoicereceiptmaker.shared.feature_customer.domain.model.Customer
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -41,6 +42,12 @@ class MakeQuotationViewModel @Inject constructor(
     private val _eventFlow = MutableSharedFlow<UiEvent>(extraBufferCapacity = 1)
     val eventFlow = _eventFlow.asSharedFlow()
 
+    private val _quotationItemList = mutableStateOf(listOf<QuotationItemWithProduct>())
+    val quotationItemList: State<List<QuotationItemWithProduct>> = _quotationItemList
+
+    private val _quotation = mutableStateOf(Quotation())
+    val quotation: State<Quotation> = _quotation
+
 
     init {
         getQuotationDetails()
@@ -53,7 +60,11 @@ class MakeQuotationViewModel @Inject constructor(
                 _eventFlow.tryEmit(UiEvent.OpenProductList)
             }
 
-            is MakeQuotationEvent.DeleteProduct -> TODO()
+            is MakeQuotationEvent.DeleteProduct -> {
+                viewModelScope.launch {
+                    quotationUseCases.deleteQuotationItemById(event.quotationItemId)
+                }
+            }
 
             is MakeQuotationEvent.EnteredOtherChargesLabel -> {
                 _otherChargesState.value = otherChargesState.value.copy(
@@ -143,7 +154,6 @@ class MakeQuotationViewModel @Inject constructor(
                     otherChargesTax = "0",
                     otherChargesIsTaxable = false
                 )
-
             }
 
             MakeQuotationEvent.ClickedCustomerPlusButton -> {
@@ -151,7 +161,13 @@ class MakeQuotationViewModel @Inject constructor(
             }
 
             MakeQuotationEvent.DeleteCustomer -> {
-                _customer.value = Customer()
+                viewModelScope.launch {
+                    quotationUseCases.updateQuotation(
+                        quotation.value.copy(
+                            customerId = null
+                        )
+                    )
+                }
             }
         }
     }
@@ -163,15 +179,19 @@ class MakeQuotationViewModel @Inject constructor(
 
             quotationUseCases.getAllProductsOfQuotation(quotationId)
                 .onEach { quotationItem ->
-                    _makeQuotationState.value = makeQuotationState.value.copy(
-                        quotationItemList = quotationItem
-                    )
+                    _quotationItemList.value = quotationItem
                 }
                 .launchIn(viewModelScope)
 
             quotationUseCases.getCustomerOfQuotationId(quotationId)
                 .onEach { customer ->
-                    _customer.value = customer
+                    _customer.value = customer ?: Customer()
+                }
+                .launchIn(viewModelScope)
+
+            quotationUseCases.getQuotationWithId(quotationId)
+                .onEach { quotation ->
+                    _quotation.value = quotation
                 }
                 .launchIn(viewModelScope)
         }

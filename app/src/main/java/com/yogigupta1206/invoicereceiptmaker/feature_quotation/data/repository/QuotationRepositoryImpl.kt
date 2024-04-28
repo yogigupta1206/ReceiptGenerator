@@ -1,5 +1,6 @@
 package com.yogigupta1206.invoicereceiptmaker.feature_quotation.data.repository
 
+import android.util.Log
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.data.data_source.QuotationDao
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.model.Quotation
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.model.QuotationItem
@@ -13,6 +14,11 @@ class QuotationRepositoryImpl(
     private val quotationDao: QuotationDao
 ) : QuotationRepository {
 
+    companion object {
+        private const val TAG = "QuotationRepositoryImpl"
+    }
+
+
     override suspend fun saveQuotation(quotation: Quotation, itemList: List<QuotationItem>) {
         quotationDao.insertQuotation(quotation)
         val quotationItems = itemList.map { it.copy(quotationId = quotation.id ?: -1) }
@@ -21,6 +27,11 @@ class QuotationRepositoryImpl(
 
     override suspend fun addQuotation(quotation: Quotation): Long {
         return quotationDao.insertQuotationAndGetId(quotation)
+    }
+
+    override suspend fun updateQuotation(updatedQuotation: Quotation) {
+        Log.d(TAG, "updateQuotation: $updatedQuotation")
+        quotationDao.updateQuotation(updatedQuotation)
     }
 
     override fun getQuotationById(quotationId: Long): Flow<Quotation> {
@@ -54,12 +65,16 @@ class QuotationRepositoryImpl(
         return quotationDao.getAllProductsOfQuotation(quotationId)
     }
 
-    override fun getCustomerOfQuotationId(quotationId: Long): Flow<Customer> {
+    override fun getCustomerOfQuotationId(quotationId: Long): Flow<Customer?> {
         return quotationDao.getCustomerOfQuotationId(quotationId)
     }
 
     override suspend fun addQuotationProduct(quotationItem: QuotationItem) {
         quotationDao.insertQuotationItem(quotationItem)
+    }
+
+    override suspend fun deleteQuotationItemById(id: Long) {
+        quotationDao.deleteQuotationItemById(id)
     }
 
 }

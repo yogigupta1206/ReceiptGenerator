@@ -4,7 +4,7 @@ sealed class MakeQuotationEvent {
 
     // Product Events
     data object ClickedProductPlusButton : MakeQuotationEvent()
-    data class DeleteProduct(val productId: Long) : MakeQuotationEvent()
+    data class DeleteProduct(val quotationItemId: Long) : MakeQuotationEvent()
 
 
     // Other Charges Events

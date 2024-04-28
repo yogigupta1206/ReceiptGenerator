@@ -9,4 +9,5 @@ data class QuotationUseCases(
     val verifyOtherCharges: VerifyOtherCharges,
     val getQuotationWithId: GetQuotationWithId,
     val addQuotationProduct: AddQuotationProduct,
+    val deleteQuotationItemById: DeleteQuotationItemById,
 )

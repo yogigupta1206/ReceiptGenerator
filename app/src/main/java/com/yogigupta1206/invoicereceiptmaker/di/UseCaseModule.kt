@@ -3,6 +3,7 @@ package com.yogigupta1206.invoicereceiptmaker.di
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.repository.QuotationRepository
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.use_case.AddQuotation
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.use_case.AddQuotationProduct
+import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.use_case.DeleteQuotationItemById
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.use_case.GetAllProductsOfQuotation
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.use_case.GetCustomerOfQuotationId
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.use_case.GetQuotationWithId
@@ -87,7 +88,8 @@ class UseCaseModule {
             SaveQuotation(quotationRepository),
             VerifyOtherCharges(),
             GetQuotationWithId(quotationRepository),
-            AddQuotationProduct(quotationRepository)
+            AddQuotationProduct(quotationRepository),
+            DeleteQuotationItemById(quotationRepository)
         )
     }
 

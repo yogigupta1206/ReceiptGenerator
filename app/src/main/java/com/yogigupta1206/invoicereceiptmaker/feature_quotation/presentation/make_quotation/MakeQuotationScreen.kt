@@ -2,14 +2,13 @@ package com.yogigupta1206.invoicereceiptmaker.feature_quotation.presentation.mak
 
 import android.util.Log
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
@@ -34,7 +33,7 @@ import androidx.navigation.NavController
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.presentation.make_quotation.MakeQuotationViewModel.UiEvent.SaveQuotationDetails
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.presentation.make_quotation.components.LabelsSection
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.presentation.make_quotation.components.OtherChargesSection
-import com.yogigupta1206.invoicereceiptmaker.feature_quotation.presentation.make_quotation.components.QuotationItemSection
+import com.yogigupta1206.invoicereceiptmaker.feature_quotation.presentation.make_quotation.components.QuotationItemCardView
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.presentation.make_quotation.components.QuotationTopSection
 import com.yogigupta1206.invoicereceiptmaker.shared.core.Screens
 import com.yogigupta1206.invoicereceiptmaker.shared.core.component.CustomerCardView
@@ -54,7 +53,6 @@ fun MakeQuotationScreen(
     val otherChargesState = viewModel.otherChargesState.value
     val snackbarHostState = remember { SnackbarHostState() }
     val bottomSheetSnackbarHostState = remember { SnackbarHostState() }
-    val scrollState = rememberScrollState()
     val sheetState = rememberModalBottomSheetState()
 
     LaunchedEffect(key1 = true) {
@@ -123,101 +121,107 @@ fun MakeQuotationScreen(
         })
     }, snackbarHost = { SnackbarHost(snackbarHostState) }) { innerPadding ->
 
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
-                .verticalScroll(scrollState),
+            //.verticalScroll(scrollState),
         ) {
 
-            QuotationTopSection(
-                modifier = Modifier
-                    .background(MaterialTheme.colorScheme.surfaceVariant),
-                quotationTime = state.quotationTime,
-                quotationId = viewModel.quotationId.value.toString(),
-                onClick = {
-                    // TODO: Show Date Picker
-                }
-            )
+            item {
+                QuotationTopSection(
+                    modifier = Modifier
+                        .background(MaterialTheme.colorScheme.surfaceVariant),
+                    quotationTime = state.quotationTime,
+                    quotationId = viewModel.quotationId.value.toString(),
+                    onClick = {
+                        // TODO: Show Date Picker
+                    }
+                )
 
-            Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(16.dp))
 
-            // CUSTOMER SECTION
-            LabelsSection(
-                modifier = Modifier
-                    .padding(horizontal = 16.dp)
-                    .clip(RoundedCornerShape(8.dp))
-                    .background(MaterialTheme.colorScheme.surfaceVariant),
-                label = "TO",
-                onClick = {
-                    viewModel.onEvent(MakeQuotationEvent.ClickedCustomerPlusButton)
-                }
-            )
-            CustomerCardView(
-                modifier = Modifier
-                    .padding(horizontal = 16.dp),
-                customer = viewModel.customer.value,
-                iconImageVector = Icons.Filled.Delete,
-                iconDescription = "Delete Customer",
-                iconOnClick = {
-                    viewModel.onEvent(MakeQuotationEvent.DeleteCustomer)
-                },
-                cardOnClick = {
-
-                }
-            )
+                // CUSTOMER SECTION
+                LabelsSection(
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .clip(RoundedCornerShape(8.dp))
+                        .background(MaterialTheme.colorScheme.surfaceVariant),
+                    label = "TO",
+                    onClick = {
+                        viewModel.onEvent(MakeQuotationEvent.ClickedCustomerPlusButton)
+                    }
+                )
+                CustomerCardView(
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp),
+                    customer = viewModel.customer.value,
+                    iconImageVector = Icons.Filled.Delete,
+                    iconDescription = "Delete Customer",
+                    iconOnClick = {
+                        viewModel.onEvent(MakeQuotationEvent.DeleteCustomer)
+                    },
+                    cardOnClick = {}
+                )
 
 
-            Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(24.dp))
 
-            // PRODUCTS SECTION
-            LabelsSection(
-                modifier = Modifier
-                    .padding(horizontal = 16.dp)
-                    .clip(RoundedCornerShape(8.dp))
-                    .background(MaterialTheme.colorScheme.surfaceVariant),
-                label = "PRODUCTS",
-                onClick = {
-                    viewModel.onEvent(MakeQuotationEvent.ClickedProductPlusButton)
-                }
-            )
-            QuotationItemSection(
-                modifier = Modifier
-                    .padding(horizontal = 8.dp),
-                state = state,
-                onDeleteClicked = {
+                // PRODUCTS SECTION
+                LabelsSection(
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .clip(RoundedCornerShape(8.dp))
+                        .background(MaterialTheme.colorScheme.surfaceVariant),
+                    label = "PRODUCTS",
+                    onClick = {
+                        viewModel.onEvent(MakeQuotationEvent.ClickedProductPlusButton)
+                    }
+                )
+            }
 
-                },
-                onItemClicked = {
+            items(viewModel.quotationItemList.value,
+                key = { item -> item.quotationItem.id!! }
+            ) { item ->
+                QuotationItemCardView(
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                    item = item,
+                    onDeleteClicked = {
+                        viewModel.onEvent(MakeQuotationEvent.DeleteProduct(item.quotationItem.id!!))
+                    },
+                    onItemClicked = {}
+                )
+            }
 
-                }
-            )
+            item {
 
-            Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(16.dp))
 
-            // OTHER CHARGES SECTION
-            LabelsSection(
-                modifier = Modifier
-                    .padding(horizontal = 16.dp)
-                    .clip(RoundedCornerShape(8.dp))
-                    .background(MaterialTheme.colorScheme.surfaceVariant),
-                label = "OTHER CHARGE",
-                onClick = {
-                    viewModel.onEvent(MakeQuotationEvent.ClickedOtherChargesPlusButton)
-                }
-            )
-            OtherChargesSection(
-                modifier = Modifier
-                    .padding(16.dp),
-                state = state,
-                onDeleteClicked = {
-                    viewModel.onEvent(MakeQuotationEvent.DeleteOtherCharges)
-                },
-                onItemClicked = {
-                    viewModel.onEvent(MakeQuotationEvent.ClickedOtherChargesPlusButton)
-                }
-            )
-            Spacer(modifier = Modifier.height(8.dp))
+                // OTHER CHARGES SECTION
+                LabelsSection(
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .clip(RoundedCornerShape(8.dp))
+                        .background(MaterialTheme.colorScheme.surfaceVariant),
+                    label = "OTHER CHARGE",
+                    onClick = {
+                        viewModel.onEvent(MakeQuotationEvent.ClickedOtherChargesPlusButton)
+                    }
+                )
+                OtherChargesSection(
+                    modifier = Modifier
+                        .padding(16.dp),
+                    state = state,
+                    onDeleteClicked = {
+                        viewModel.onEvent(MakeQuotationEvent.DeleteOtherCharges)
+                    },
+                    onItemClicked = {
+                        viewModel.onEvent(MakeQuotationEvent.ClickedOtherChargesPlusButton)
+                    }
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+            }
         }
 
         OtherChargesBottomSheet(

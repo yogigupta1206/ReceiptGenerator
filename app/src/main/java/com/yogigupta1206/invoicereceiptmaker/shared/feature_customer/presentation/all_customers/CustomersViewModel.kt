@@ -73,7 +73,7 @@ class CustomersViewModel @Inject constructor(
                 Log.d(TAG, "SelectedIdForQuotation: ${event.id}")
                 viewModelScope.launch {
                     quotation?.let {
-                        quotationUseCases.addQuotation(
+                        quotationUseCases.updateQuotation(
                             it.copy(
                                 customerId = event.id
                             )

@@ -14,7 +14,9 @@ interface QuotationRepository {
     suspend fun updateQuotation(quotation: Quotation, itemList: List<QuotationItem>)
     fun getQuotationAndQuotationItemsById(quotationId: Long): Flow<List<QuotationItemWithProduct>>
     fun getAllProductsOfQuotation(quotationId: Long): Flow<List<QuotationItem>>
-    fun getCustomerOfQuotationId(quotationId: Long): Flow<Customer>
+    fun getCustomerOfQuotationId(quotationId: Long): Flow<Customer?>
     suspend fun addQuotationProduct(quotationItem: QuotationItem)
+    suspend fun deleteQuotationItemById(id: Long)
+    suspend fun updateQuotation(updatedQuotation: Quotation)
 
 }
