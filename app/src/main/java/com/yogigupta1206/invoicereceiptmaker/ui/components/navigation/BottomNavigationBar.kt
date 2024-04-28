@@ -80,23 +80,9 @@ fun BottomNavigationBar() {
             startDestination = Screens.MakeQuotation.route,
             modifier = Modifier.padding(paddingValues = paddingValues)
         ) {
+
             composable(Screens.Business.route) {
                 BusinessScreen(navController = navController)
-            }
-            composable(
-                route = Screens.Customers.route,
-                arguments = listOf(navArgument("openFrom") {
-                    type = NavType.StringType
-                    defaultValue = ""
-                },
-                    navArgument("quotationId") {
-                        type = NavType.LongType
-                        defaultValue = -1
-                    }
-                )
-            ) {
-                //call our composable screens here
-                CustomersScreen(navController = navController)
             }
             composable(Screens.MakeQuotation.route) {
                 MakeQuotationScreen(navController = navController)
@@ -107,6 +93,23 @@ fun BottomNavigationBar() {
             }
             composable(Screens.Products.route) {
                 ProductsScreen(navController = navController)
+            }
+
+            composable(
+                route = Screens.Customers.route + "?openFrom={openFrom}&id={id}",
+                arguments = listOf(
+                    navArgument("openFrom") {
+                        type = NavType.StringType
+                        defaultValue = ""
+                    },
+                    navArgument("id") {
+                        type = NavType.LongType
+                        defaultValue = -1L
+                    }
+                )
+            ) {
+                //call our composable screens here
+                CustomersScreen(navController = navController)
             }
 
             composable(

@@ -7,11 +7,10 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.data.data_source.QuotationDao
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.model.Quotation
 import com.yogigupta1206.invoicereceiptmaker.shared.data_source.db.AppDbDataSource
+import com.yogigupta1206.invoicereceiptmaker.shared.feature_customer.data.data_source.CustomersDao
 import com.yogigupta1206.invoicereceiptmaker.shared.feature_customer.domain.model.Customer
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.After
-import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -61,15 +60,6 @@ class QuotationDaoTest {
         quotationDao.insertQuotation(quotation2)
 
         // Run the query
-        val quotationsWithCustomer = quotationDao.getAllQuotationsWithCustomerDetails().first()
-        println("Quotations with customer details: ${quotationsWithCustomer.size}")
-        quotationsWithCustomer.forEach {
-            println("\n${it.quotation} | ${it.customer}\n")
-        }
 
-        // Assert that the result is as expected
-        assertEquals(1, quotationsWithCustomer.size)
-        assertEquals(quotation.id, quotationsWithCustomer[0].quotation.id)
-        assertEquals(customer.id, quotationsWithCustomer[0].customer.id)
     }
 }

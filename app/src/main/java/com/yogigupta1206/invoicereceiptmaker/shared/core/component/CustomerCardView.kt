@@ -35,6 +35,7 @@ fun CustomerCardView(
 ) {
     if (customer == null || customer.name.isNullOrBlank()) return
 
+    Spacer(modifier = Modifier.height(8.dp))
     Box(modifier = modifier) {
         ElevatedCard(
             onClick = cardOnClick,

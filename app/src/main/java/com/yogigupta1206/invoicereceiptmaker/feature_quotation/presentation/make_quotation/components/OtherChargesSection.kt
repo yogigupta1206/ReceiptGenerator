@@ -5,10 +5,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
@@ -33,7 +31,6 @@ fun OtherChargesSection(
     onItemClicked: () -> Unit
 ) {
     if (state.otherChargesLabel.isBlank()) return
-    Spacer(modifier = Modifier.height(8.dp))
     Box(modifier = modifier) {
         ElevatedCard(
             onClick = onItemClicked,
@@ -90,10 +87,10 @@ fun OtherChargesSection(
                         .clickable(onClick = onDeleteClicked)
                         .padding(4.dp),
                     imageVector = Icons.Default.Delete,
-                    contentDescription = "Delete product"
+                    contentDescription = "Delete product",
+                    tint = MaterialTheme.colorScheme.surfaceTint
                 )
             }
         }
     }
-    Spacer(modifier = Modifier.height(8.dp))
 }

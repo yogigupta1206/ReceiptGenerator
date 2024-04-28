@@ -6,15 +6,15 @@ import androidx.room.PrimaryKey
 @Entity
 data class Customer(
     @PrimaryKey(autoGenerate = true) val id: Long? = null,
-    val name: String?,
-    val email: String?,
-    val phone: String?,
-    val gstNumber: String?,
-    val address1: String?,
-    val address2: String?,
-    val otherInfo: String?,
-    val shippingAddress: String?,
+    val name: String? = null,
+    val email: String? = null,
+    val phone: String? = null,
+    val gstNumber: String? = null,
+    val address1: String? = null,
+    val address2: String? = null,
+    val otherInfo: String? = null,
+    val shippingAddress: String? = null,
     val updatedAt: Long = System.currentTimeMillis()
 )
 
-class InvalidCustomerException(message: String): Exception(message)
+class InvalidCustomerException(message: String) : Exception(message)

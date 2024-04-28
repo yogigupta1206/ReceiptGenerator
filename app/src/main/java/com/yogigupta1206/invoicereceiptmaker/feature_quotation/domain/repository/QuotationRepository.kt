@@ -12,7 +12,7 @@ interface QuotationRepository {
     suspend fun saveQuotation(quotation: Quotation, itemList: List<QuotationItem>)
     suspend fun deleteQuotationById(quotationId: Long)
     suspend fun updateQuotation(quotation: Quotation, itemList: List<QuotationItem>)
-    fun getAllQuotationsWithCustomer(): Flow<List<QuotationWithCustomer>>
+    fun getQuotationWithCustomer(quotationId: Long): Flow<QuotationWithCustomer>
     fun getQuotationAndQuotationItemsById(quotationId: Long): Flow<List<QuotationItemWithProduct>>
     fun getAllProductsOfQuotation(quotationId: Long): Flow<List<QuotationItem>>
 

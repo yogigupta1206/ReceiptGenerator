@@ -93,7 +93,7 @@ fun MakeQuotationScreen(
                 }
 
                 MakeQuotationViewModel.UiEvent.OpenCustomerList -> {
-                    navController.navigate(Screens.Customers.route + "?openFrom=${Screens.MakeQuotation.route}&quotationId=${viewModel.quotationId}")
+                    navController.navigate(Screens.Customers.route + "?openFrom=${Screens.MakeQuotation.route}&id=${viewModel.quotationId.value}")
                 }
             }
         }
@@ -130,6 +130,7 @@ fun MakeQuotationScreen(
                 modifier = Modifier
                     .background(MaterialTheme.colorScheme.surfaceVariant),
                 quotationTime = state.quotationTime,
+                quotationId = viewModel.quotationId.value.toString(),
                 onClick = {
                     // TODO: Show Date Picker
                 }
@@ -150,18 +151,20 @@ fun MakeQuotationScreen(
             )
             CustomerCardView(
                 modifier = Modifier
-                    .padding(horizontal = 8.dp),
+                    .padding(horizontal = 16.dp),
+                customer = viewModel.quotationWithCustomer.value.customer,
                 iconImageVector = Icons.Filled.Delete,
                 iconDescription = "Delete Customer",
                 iconOnClick = {
-
+                    viewModel.onEvent(MakeQuotationEvent.DeleteCustomer)
                 },
                 cardOnClick = {
 
                 }
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+
+            Spacer(modifier = Modifier.height(24.dp))
 
             // PRODUCTS SECTION
             LabelsSection(
@@ -186,7 +189,7 @@ fun MakeQuotationScreen(
                 }
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
             // OTHER CHARGES SECTION
             LabelsSection(
@@ -222,7 +225,7 @@ fun MakeQuotationScreen(
             checkBoxChecked = otherChargesState.otherChargesIsTaxable,
             gstValue = otherChargesState.otherChargesTax,
             onSaveClick = {
-                viewModel.onEvent(MakeQuotationEvent.UpdateBottonSheet)
+                viewModel.onEvent(MakeQuotationEvent.UpdateBottomSheet)
             },
             onDismissRequest = {
                 viewModel.onEvent(MakeQuotationEvent.ClickedBottomSheetDismiss)

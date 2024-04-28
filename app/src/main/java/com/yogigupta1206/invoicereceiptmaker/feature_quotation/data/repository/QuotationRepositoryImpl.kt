@@ -41,8 +41,8 @@ class QuotationRepositoryImpl(
         }
     }
 
-    override fun getAllQuotationsWithCustomer(): Flow<List<QuotationWithCustomer>> {
-        return quotationDao.getAllQuotationsWithCustomerDetails()
+    override fun getQuotationWithCustomer(quotationId: Long): Flow<QuotationWithCustomer> {
+        return quotationDao.getQuotationWithCustomerDetails(quotationId)
     }
 
     override fun getQuotationAndQuotationItemsById(quotationId: Long): Flow<List<QuotationItemWithProduct>> {

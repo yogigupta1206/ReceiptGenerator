@@ -13,6 +13,8 @@ import com.yogigupta1206.invoicereceiptmaker.shared.utils.OrderBy
 import com.yogigupta1206.invoicereceiptmaker.shared.utils.OrderType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -31,23 +33,29 @@ class CustomersViewModel @Inject constructor(
     private val _customerState = mutableStateOf(CustomersState())
     val customerState: State<CustomersState> = _customerState
 
+    private val _uiEvent = MutableSharedFlow<UiEvent>()
+    val uiEvent = _uiEvent.asSharedFlow()
+
     var screenLaunchFrom: String = ""
     var quotationId = -1L
-    lateinit var quotation: Quotation
+    var quotation: Quotation? = null
 
     private var getCustomersJob: Job? = null
 
     init {
         Log.d(TAG, "initCalled")
         savedStateHandle.get<String>("openFrom")?.let {
+            Log.d(TAG, "openFrom: $it")
             screenLaunchFrom = it
         }
-        savedStateHandle.get<Long>("quotationId")?.let {
+        savedStateHandle.get<Long>("id")?.let {
+            Log.d(TAG, "quotationId: $it")
             quotationId = it
             if (it != -1L) {
                 quotationUseCases.getQuotationWithId(it)
                     .onEach { quotation ->
                         this.quotation = quotation
+                        Log.d(TAG, "Quotation Invoked: $quotation")
                     }
                     .launchIn(viewModelScope)
             }
@@ -62,12 +70,16 @@ class CustomersViewModel @Inject constructor(
             }
 
             is CustomersEvent.SelectedIdForQuotation -> {
+                Log.d(TAG, "SelectedIdForQuotation: ${event.id}")
                 viewModelScope.launch {
-                    quotationUseCases.addQuotation(
-                        quotation.copy(
-                            customerId = event.id
+                    quotation?.let {
+                        quotationUseCases.addQuotation(
+                            it.copy(
+                                customerId = event.id
+                            )
                         )
-                    )
+                    }
+                    _uiEvent.emit(UiEvent.NavigationBack)
                 }
             }
         }
@@ -84,6 +96,10 @@ class CustomersViewModel @Inject constructor(
                 )
             }
             .launchIn(viewModelScope)
+    }
+
+    sealed class UiEvent {
+        data object NavigationBack : UiEvent()
     }
 
 }

@@ -7,10 +7,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.model.Quotation
+import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.model.QuotationWithCustomer
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.use_case.QuotationUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -33,6 +35,9 @@ class MakeQuotationViewModel @Inject constructor(
     private val _otherChargesState = mutableStateOf(OtherChargesState())
     val otherChargesState: State<OtherChargesState> = _otherChargesState
 
+    private val _quotationWithCustomer = mutableStateOf(QuotationWithCustomer())
+    val quotationWithCustomer: State<QuotationWithCustomer> = _quotationWithCustomer
+
     private val _eventFlow = MutableSharedFlow<UiEvent>(extraBufferCapacity = 1)
     val eventFlow = _eventFlow.asSharedFlow()
 
@@ -43,11 +48,6 @@ class MakeQuotationViewModel @Inject constructor(
 
     fun onEvent(event: MakeQuotationEvent) {
         when (event) {
-            is MakeQuotationEvent.AddCustomer -> {
-                _makeQuotationState.value = makeQuotationState.value.copy(
-                    customer = event.customer
-                )
-            }
 
             is MakeQuotationEvent.AddProduct -> {
                 //TODO: TEsting
@@ -101,7 +101,7 @@ class MakeQuotationViewModel @Inject constructor(
                 _eventFlow.tryEmit(UiEvent.ShowBottomSheet(true))
             }
 
-            MakeQuotationEvent.UpdateBottonSheet -> {
+            MakeQuotationEvent.UpdateBottomSheet -> {
                 viewModelScope.launch {
                     try {
                         quotationUseCases.verifyOtherCharges(
@@ -149,6 +149,10 @@ class MakeQuotationViewModel @Inject constructor(
             MakeQuotationEvent.ClickedCustomerPlusButton -> {
                 _eventFlow.tryEmit(UiEvent.OpenCustomerList)
             }
+
+            MakeQuotationEvent.DeleteCustomer -> {
+                _quotationWithCustomer.value = QuotationWithCustomer()
+            }
         }
     }
 
@@ -157,13 +161,19 @@ class MakeQuotationViewModel @Inject constructor(
             val quotationId = quotationUseCases.addQuotation(Quotation())
             _quotationId.longValue = quotationId
 
-
             quotationUseCases.getAllProductsOfQuotation(quotationId)
                 .onEach { quotationItem ->
                     _makeQuotationState.value = makeQuotationState.value.copy(
                         quotationItemList = quotationItem
                     )
                 }
+                .launchIn(viewModelScope)
+
+            quotationUseCases.getQuotationWithCustomer(quotationId)
+                .onEach { quotationWithCustomer ->
+                    _quotationWithCustomer.value = quotationWithCustomer
+                }
+                .launchIn(viewModelScope)
         }
 
     }

@@ -31,9 +31,9 @@ data class BottomNavigationItem(
                 route = Screens.Customers.route
             ),
             BottomNavigationItem(
-                label = "Discover",
+                label = "Quotation",
                 icon = Icons.Filled.Star,
-                route = Screens.Discover.route
+                route = Screens.MakeQuotation.route
             ),
             BottomNavigationItem(
                 label = "Product",

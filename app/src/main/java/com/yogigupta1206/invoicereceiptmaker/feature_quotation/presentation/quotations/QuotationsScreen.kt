@@ -67,7 +67,7 @@ fun QuotationsScreen(
                     QuotationItem(quotationWithCustomer = state.quotationWithCustomersList[index],
                         modifier = Modifier.padding(vertical = 4.dp),
                         onClick = {
-                            navController.navigate(Screens.MakeQuotation.route + "?quotationId=${state.quotationWithCustomersList[index].quotation.id}")
+                            navController.navigate(Screens.MakeQuotation.route + "?quotationId=${state.quotationWithCustomersList[index].quotation?.id}")
                         })
                 }
             }
