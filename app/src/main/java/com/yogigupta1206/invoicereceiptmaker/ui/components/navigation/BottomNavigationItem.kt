@@ -8,7 +8,7 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
 import com.yogigupta1206.invoicereceiptmaker.R
-import com.yogigupta1206.invoicereceiptmaker.core.Screens
+import com.yogigupta1206.invoicereceiptmaker.shared.core.Screens
 
 data class BottomNavigationItem(
     val label : String = "",

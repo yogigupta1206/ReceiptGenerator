@@ -4,11 +4,10 @@ import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.yogigupta1206.invoicereceiptmaker.data.data_source.db.AppDbDataSource
-import com.yogigupta1206.invoicereceiptmaker.data.data_source.db.CustomersDao
-import com.yogigupta1206.invoicereceiptmaker.data.data_source.db.QuotationDao
-import com.yogigupta1206.invoicereceiptmaker.domain.model.Customer
-import com.yogigupta1206.invoicereceiptmaker.domain.model.Quotation
+import com.yogigupta1206.invoicereceiptmaker.feature_quotation.data.data_source.QuotationDao
+import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.model.Quotation
+import com.yogigupta1206.invoicereceiptmaker.shared.data_source.db.AppDbDataSource
+import com.yogigupta1206.invoicereceiptmaker.shared.feature_customer.domain.model.Customer
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.After
