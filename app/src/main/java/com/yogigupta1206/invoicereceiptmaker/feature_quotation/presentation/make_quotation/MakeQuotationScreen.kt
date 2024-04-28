@@ -152,7 +152,7 @@ fun MakeQuotationScreen(
             CustomerCardView(
                 modifier = Modifier
                     .padding(horizontal = 16.dp),
-                customer = viewModel.quotationWithCustomer.value.customer,
+                customer = viewModel.customer.value,
                 iconImageVector = Icons.Filled.Delete,
                 iconDescription = "Delete Customer",
                 iconOnClick = {

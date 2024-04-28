@@ -6,6 +6,7 @@ import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.model.Quot
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.model.QuotationItemWithProduct
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.model.QuotationWithCustomer
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.repository.QuotationRepository
+import com.yogigupta1206.invoicereceiptmaker.shared.feature_customer.domain.model.Customer
 import kotlinx.coroutines.flow.Flow
 
 class QuotationRepositoryImpl(
@@ -41,7 +42,7 @@ class QuotationRepositoryImpl(
         }
     }
 
-    override fun getQuotationWithCustomer(quotationId: Long): Flow<QuotationWithCustomer> {
+    fun getQuotationWithCustomer(quotationId: Long): Flow<QuotationWithCustomer> {
         return quotationDao.getQuotationWithCustomerDetails(quotationId)
     }
 
@@ -51,6 +52,10 @@ class QuotationRepositoryImpl(
 
     override fun getAllProductsOfQuotation(quotationId: Long): Flow<List<QuotationItem>> {
         return quotationDao.getAllProductsOfQuotation(quotationId)
+    }
+
+    override fun getCustomerOfQuotationId(quotationId: Long): Flow<Customer> {
+        return quotationDao.getCustomerOfQuotationId(quotationId)
     }
 
 }

@@ -7,8 +7,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.model.Quotation
-import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.model.QuotationWithCustomer
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.use_case.QuotationUseCases
+import com.yogigupta1206.invoicereceiptmaker.shared.feature_customer.domain.model.Customer
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -35,8 +35,8 @@ class MakeQuotationViewModel @Inject constructor(
     private val _otherChargesState = mutableStateOf(OtherChargesState())
     val otherChargesState: State<OtherChargesState> = _otherChargesState
 
-    private val _quotationWithCustomer = mutableStateOf(QuotationWithCustomer())
-    val quotationWithCustomer: State<QuotationWithCustomer> = _quotationWithCustomer
+    private val _customer = mutableStateOf(Customer())
+    val customer: State<Customer> = _customer
 
     private val _eventFlow = MutableSharedFlow<UiEvent>(extraBufferCapacity = 1)
     val eventFlow = _eventFlow.asSharedFlow()
@@ -151,7 +151,7 @@ class MakeQuotationViewModel @Inject constructor(
             }
 
             MakeQuotationEvent.DeleteCustomer -> {
-                _quotationWithCustomer.value = QuotationWithCustomer()
+                _customer.value = Customer()
             }
         }
     }
@@ -169,9 +169,9 @@ class MakeQuotationViewModel @Inject constructor(
                 }
                 .launchIn(viewModelScope)
 
-            quotationUseCases.getQuotationWithCustomer(quotationId)
-                .onEach { quotationWithCustomer ->
-                    _quotationWithCustomer.value = quotationWithCustomer
+            quotationUseCases.getCustomerOfQuotationId(quotationId)
+                .onEach { customer ->
+                    _customer.value = customer
                 }
                 .launchIn(viewModelScope)
         }

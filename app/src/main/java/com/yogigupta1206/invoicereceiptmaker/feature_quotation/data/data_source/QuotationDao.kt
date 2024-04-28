@@ -13,6 +13,7 @@ import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.model.Quot
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.model.QuotationTerms
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.model.QuotationWithCustomer
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.model.QuotationWithCustomerAndItems
+import com.yogigupta1206.invoicereceiptmaker.shared.feature_customer.domain.model.Customer
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -25,6 +26,9 @@ interface QuotationDao {
     @Transaction
     @Query("SELECT * FROM Quotation WHERE id = :quotationId")
     fun getQuotationsWithCustomerAndItemsById(quotationId: Long): Flow<QuotationWithCustomerAndItems>
+
+    @Query("SELECT * FROM Customer WHERE id IN (SELECT customerId FROM Quotation WHERE id = :quotationId)")
+    fun getCustomerOfQuotationId(quotationId: Long): Flow<Customer>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertQuotationAndGetId(item: Quotation): Long
