@@ -8,4 +8,5 @@ data class QuotationUseCases(
     val saveQuotation: SaveQuotation,
     val verifyOtherCharges: VerifyOtherCharges,
     val getQuotationWithId: GetQuotationWithId,
+    val addQuotationProduct: AddQuotationProduct,
 )

@@ -28,6 +28,7 @@ import com.yogigupta1206.invoicereceiptmaker.shared.feature_customer.presentatio
 import com.yogigupta1206.invoicereceiptmaker.shared.feature_customer.presentation.customer_add_edit.CustomerAddEditScreen
 import com.yogigupta1206.invoicereceiptmaker.shared.feature_product.presentation.all_products.ProductsScreen
 import com.yogigupta1206.invoicereceiptmaker.shared.feature_product.presentation.product_add_edit.ProductAddEditScreen
+import com.yogigupta1206.invoicereceiptmaker.shared.feature_product.presentation.product_quantity.ProductQuantityScreen
 
 @Composable
 fun BottomNavigationBar() {
@@ -58,7 +59,6 @@ fun BottomNavigationBar() {
                                         contentDescription = navigationItem.label
                                     )
                                 }
-
                             },
                             onClick = {
                                 navigationSelectedItem = index
@@ -91,8 +91,35 @@ fun BottomNavigationBar() {
             composable(Screens.Items.route) {
                 //call our composable screens here
             }
-            composable(Screens.Products.route) {
+            composable(
+                route = Screens.Products.route + "?openFrom={openFrom}&id={id}",
+                arguments = listOf(
+                    navArgument("openFrom") {
+                        type = NavType.StringType
+                        defaultValue = ""
+                    },
+                    navArgument("id") {
+                        type = NavType.LongType
+                        defaultValue = -1L
+                    }
+                )
+            ) {
                 ProductsScreen(navController = navController)
+            }
+
+            composable(
+                route = Screens.ProductQuantity.route + "?productId={productId}&id={id}",
+                arguments = listOf(
+                    navArgument("productId") {
+                        type = NavType.LongType
+                        defaultValue = -1L
+                    },
+                    navArgument("id") {
+                        type = NavType.LongType
+                        defaultValue = -1L
+                    }
+                )) {
+                ProductQuantityScreen(navController = navController)
             }
 
             composable(

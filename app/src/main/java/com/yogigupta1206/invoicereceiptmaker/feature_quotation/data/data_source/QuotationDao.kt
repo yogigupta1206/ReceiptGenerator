@@ -37,6 +37,9 @@ interface QuotationDao {
     suspend fun insertQuotationTerms(terms: List<QuotationTerms>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertQuotationItem(item: QuotationItem)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertQuotationItems(items: List<QuotationItem>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

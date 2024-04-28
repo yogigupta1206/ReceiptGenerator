@@ -20,7 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.model.QuotationDiscountType
+import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.model.DiscountType
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.model.QuotationItemWithProduct
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -88,12 +88,12 @@ fun QuotationItemCardView(
                 ) {
                     Text(
                         modifier = Modifier,
-                        text = "Discount ${if (item.quotationItem.discountType == QuotationDiscountType.PERCENTAGE) "(${item.quotationItem.discount}%)" else ""}:",
+                        text = "Discount ${if (item.quotationItem.discountType == DiscountType.PERCENTAGE) "(${item.quotationItem.discount}%)" else ""}:",
                         style = MaterialTheme.typography.bodySmall,
                         fontWeight = FontWeight.Light
                     )
                     Text(
-                        text = "-${if (item.quotationItem.discountType == QuotationDiscountType.PERCENTAGE) (item.quotationItem.quantity * item.product.price) * (item.quotationItem.discount / 100) else item.quotationItem.discount}",
+                        text = "-${if (item.quotationItem.discountType == DiscountType.PERCENTAGE) (item.quotationItem.quantity * item.product.price) * (item.quotationItem.discount / 100) else item.quotationItem.discount}",
                         style = MaterialTheme.typography.bodySmall,
                         fontWeight = FontWeight.Light
                     )
@@ -111,7 +111,7 @@ fun QuotationItemCardView(
                         fontWeight = FontWeight.Light
                     )
                     Text(
-                        text = "${item.quotationItem.quantity * item.product.price - if (item.quotationItem.discountType == QuotationDiscountType.PERCENTAGE) (item.quotationItem.quantity * item.product.price) * (item.quotationItem.discount / 100) else item.quotationItem.discount}",
+                        text = "${item.quotationItem.quantity * item.product.price - if (item.quotationItem.discountType == DiscountType.PERCENTAGE) (item.quotationItem.quantity * item.product.price) * (item.quotationItem.discount / 100) else item.quotationItem.discount}",
                         style = MaterialTheme.typography.bodySmall,
                         fontWeight = FontWeight.Bold
                     )

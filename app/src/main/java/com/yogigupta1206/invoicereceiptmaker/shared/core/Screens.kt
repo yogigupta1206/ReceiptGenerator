@@ -10,4 +10,5 @@ sealed class Screens(val route: String) {
     data object ProductAddEdit : Screens("productAddEdit")
     data object Quotations : Screens("quotations")
     data object MakeQuotation : Screens("makeQuotation")
+    data object ProductQuantity : Screens("productQuantity")
 }

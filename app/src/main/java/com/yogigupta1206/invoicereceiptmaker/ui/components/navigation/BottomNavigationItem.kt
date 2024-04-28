@@ -43,7 +43,7 @@ data class BottomNavigationItem(
             BottomNavigationItem(
                 label = "Items",
                 icon = Icons.Filled.List,
-                route = Screens.Items.route
+                route = Screens.ProductQuantity.route
             ),
         )
     }

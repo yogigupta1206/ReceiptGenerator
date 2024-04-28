@@ -1,7 +1,9 @@
 package com.yogigupta1206.invoicereceiptmaker.shared.feature_product.presentation.all_products
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yogigupta1206.invoicereceiptmaker.shared.feature_product.domain.use_case.ProductUseCases
@@ -15,7 +17,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProductsViewModel @Inject constructor(
-    private val productsUseCases: ProductUseCases
+    private val productsUseCases: ProductUseCases,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     companion object {
         private const val TAG = "ProductsViewModel"
@@ -26,7 +29,19 @@ class ProductsViewModel @Inject constructor(
 
     private var getProductsJob: Job? = null
 
+    var screenLaunchFrom: String = ""
+    var quotationId = -1L
+
     init {
+        Log.d(TAG, "initCalled")
+        savedStateHandle.get<String>("openFrom")?.let {
+            Log.d(TAG, "openFrom: $it")
+            screenLaunchFrom = it
+        }
+        savedStateHandle.get<Long>("id")?.let {
+            Log.d(TAG, "quotationId: $it")
+            quotationId = it
+        }
         getProducts(OrderBy.Date(OrderType.Descending))
     }
 
@@ -50,6 +65,5 @@ class ProductsViewModel @Inject constructor(
             }
             .launchIn(viewModelScope)
     }
-
 
 }

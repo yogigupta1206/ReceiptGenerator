@@ -64,16 +64,16 @@ data class QuotationTerms(
 data class QuotationItem(
     @PrimaryKey(autoGenerate = true) val id: Long? = null,
     val quotationId: Long = -1,
-    val productId: Long,
+    val productId: Long = -1,
     var quantity: Int = 1,
-    val price: Long,
+    val price: Double = 0.0,
     val gst: Double = 0.0,
-    val discountType: QuotationDiscountType = QuotationDiscountType.PERCENTAGE,
+    val discountType: DiscountType = DiscountType.PERCENTAGE,
     val discount: Double = 0.0,
-    val description: String,
+    val description: String = "",
 )
 
 
-enum class QuotationDiscountType {
+enum class DiscountType {
     PERCENTAGE, FLAT
 }

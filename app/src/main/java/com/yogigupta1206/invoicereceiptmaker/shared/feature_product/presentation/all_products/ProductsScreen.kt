@@ -67,7 +67,11 @@ fun ProductsScreen(
                     ProductItem(product = state.products[index],
                         modifier = Modifier.padding(vertical = 4.dp),
                         onClick = {
-                            navController.navigate(Screens.ProductAddEdit.route + "?productId=${state.products[index].id}")
+                            if (viewModel.screenLaunchFrom == Screens.MakeQuotation.route) {
+                                navController.navigate(Screens.ProductQuantity.route + "?productId=${state.products[index].id}&id=${viewModel.quotationId}")
+                            } else {
+                                navController.navigate(Screens.ProductAddEdit.route + "?productId=${state.products[index].id}")
+                            }
                         })
                 }
             }

@@ -1,13 +1,10 @@
 package com.yogigupta1206.invoicereceiptmaker.feature_quotation.presentation.make_quotation
 
-import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.model.QuotationItemWithProduct
-
 sealed class MakeQuotationEvent {
 
-    data object AddProduct : MakeQuotationEvent()
-    data class UpdateQuotationDate(val date: Long) : MakeQuotationEvent()
-    data class DeleteProduct(val quotationItemWithProduct: QuotationItemWithProduct) :
-        MakeQuotationEvent()
+    // Product Events
+    data object ClickedProductPlusButton : MakeQuotationEvent()
+    data class DeleteProduct(val productId: Long) : MakeQuotationEvent()
 
 
     // Other Charges Events
@@ -27,6 +24,7 @@ sealed class MakeQuotationEvent {
 
 
     data object GenerateQuotation : MakeQuotationEvent()
+    data class UpdateQuotationDate(val date: Long) : MakeQuotationEvent()
 
 
 }

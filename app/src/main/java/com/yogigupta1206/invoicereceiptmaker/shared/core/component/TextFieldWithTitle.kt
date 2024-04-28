@@ -1,5 +1,6 @@
 package com.yogigupta1206.invoicereceiptmaker.shared.core.component
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -22,10 +23,14 @@ fun TextFieldWithTitle(
         fontSize = 16.sp
     ),
     singleLine: Boolean = true,
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    enabled: Boolean = true,
+    onClick: () -> Unit = {}
 ) {
     Box(
-        modifier = modifier
+        modifier = modifier.clickable {
+            onClick()
+        }
     ){
         TextField(
             modifier = Modifier
@@ -37,7 +42,8 @@ fun TextFieldWithTitle(
             onValueChange = onValueChange,
             textStyle = textStyle,
             singleLine = singleLine,
-            keyboardOptions = keyboardOptions
+            keyboardOptions = keyboardOptions,
+            enabled = enabled
         )
     }
 }

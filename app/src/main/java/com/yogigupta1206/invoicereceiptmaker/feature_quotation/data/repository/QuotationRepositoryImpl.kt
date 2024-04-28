@@ -58,4 +58,8 @@ class QuotationRepositoryImpl(
         return quotationDao.getCustomerOfQuotationId(quotationId)
     }
 
+    override suspend fun addQuotationProduct(quotationItem: QuotationItem) {
+        quotationDao.insertQuotationItem(quotationItem)
+    }
+
 }

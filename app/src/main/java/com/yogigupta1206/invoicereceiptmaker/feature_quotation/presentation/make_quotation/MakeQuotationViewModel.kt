@@ -49,12 +49,12 @@ class MakeQuotationViewModel @Inject constructor(
     fun onEvent(event: MakeQuotationEvent) {
         when (event) {
 
-            is MakeQuotationEvent.AddProduct -> {
-                //TODO: TEsting
-                _eventFlow.tryEmit(UiEvent.ShowSnackbar("Product Added"))
+            is MakeQuotationEvent.ClickedProductPlusButton -> {
+                _eventFlow.tryEmit(UiEvent.OpenProductList)
             }
 
             is MakeQuotationEvent.DeleteProduct -> TODO()
+
             is MakeQuotationEvent.EnteredOtherChargesLabel -> {
                 _otherChargesState.value = otherChargesState.value.copy(
                     otherChargesLabel = event.label
@@ -180,6 +180,7 @@ class MakeQuotationViewModel @Inject constructor(
 
     sealed class UiEvent {
         data object OpenCustomerList : UiEvent()
+        data object OpenProductList : UiEvent()
         data object ShowDatePicker : UiEvent()
         data class ShowBottomSheet(val show: Boolean) : UiEvent()
         data class ShowSnackbar(val message: String) : UiEvent()

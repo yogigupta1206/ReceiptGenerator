@@ -69,7 +69,7 @@ fun MakeQuotationScreen(
                 }
 
                 MakeQuotationViewModel.UiEvent.ShowDatePicker -> {
-
+                    // TODO : Implement Data Picker Callback
                 }
 
                 is MakeQuotationViewModel.UiEvent.ShowSnackbar -> {
@@ -94,6 +94,10 @@ fun MakeQuotationScreen(
 
                 MakeQuotationViewModel.UiEvent.OpenCustomerList -> {
                     navController.navigate(Screens.Customers.route + "?openFrom=${Screens.MakeQuotation.route}&id=${viewModel.quotationId.value}")
+                }
+
+                MakeQuotationViewModel.UiEvent.OpenProductList -> {
+                    navController.navigate(Screens.Products.route + "?openFrom=${Screens.MakeQuotation.route}&id=${viewModel.quotationId.value}")
                 }
             }
         }
@@ -174,7 +178,7 @@ fun MakeQuotationScreen(
                     .background(MaterialTheme.colorScheme.surfaceVariant),
                 label = "PRODUCTS",
                 onClick = {
-                    viewModel.onEvent(MakeQuotationEvent.AddProduct)
+                    viewModel.onEvent(MakeQuotationEvent.ClickedProductPlusButton)
                 }
             )
             QuotationItemSection(
