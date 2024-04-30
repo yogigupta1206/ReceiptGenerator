@@ -58,7 +58,7 @@ fun ProductsScreen(
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
-                .padding(horizontal = 8.dp, vertical = 4.dp)
+                .padding(horizontal = 16.dp, vertical = 4.dp)
         ) {
             LazyColumn(
                 modifier = Modifier

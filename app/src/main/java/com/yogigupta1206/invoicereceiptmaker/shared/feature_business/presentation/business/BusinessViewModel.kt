@@ -30,7 +30,7 @@ class BusinessViewModel @Inject constructor(
     private val _contactName = mutableStateOf<String?>("Contact Name")
     val contactName: State<String?> = _contactName
 
-    private val _email = mutableStateOf<String?>("Email")
+    private val _email = mutableStateOf<String?>("Email@email.com")
     val email: State<String?> = _email
 
     private val _phone = mutableStateOf<String?>("Phone Number")

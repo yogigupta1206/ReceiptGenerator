@@ -53,7 +53,7 @@ fun BusinessScreen(
                     snackbarHostState.showSnackbar(
                         message = "Details Saved", duration = SnackbarDuration.Short
                     )
-                    navController.navigate("discover")
+                    navController.popBackStack()
                 }
 
                 is BusinessViewModel.UiEvent.ShowSnackBar -> {
@@ -99,7 +99,7 @@ fun BusinessScreen(
 
             ) {
                 Spacer(modifier = Modifier.height(8.dp))
-                TextFieldWithTitle(label = "BusinessName",
+                TextFieldWithTitle(label = "Business Name",
                     text = viewModel.businessName.value.toString(),
                     onValueChange = {
                         viewModel.onEvent(BusinessScreenEvent.EnteredBusinessName(it))
