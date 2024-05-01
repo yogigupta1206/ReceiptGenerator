@@ -81,7 +81,7 @@ fun QuotationItemCardView(
                         Text(
                             modifier = Modifier
                                 .padding(start = 16.dp),
-                            text = "${item.quotationItem.quantity} * ${item.product.price} = ${item.quotationItem.quantity * item.product.price}",
+                            text = "${item.quotationItem.quantity} * ${item.quotationItem.price} = ${item.quotationItem.quantity * item.quotationItem.price}",
                             style = MaterialTheme.typography.bodySmall,
                             fontWeight = FontWeight.Light,
                             softWrap = true
@@ -103,7 +103,28 @@ fun QuotationItemCardView(
                         Text(
                             modifier = Modifier
                                 .padding(start = 16.dp),
-                            text = "-${if (item.quotationItem.discountType == DiscountType.PERCENTAGE) (item.quotationItem.quantity * item.product.price) * (item.quotationItem.discount / 100) else item.quotationItem.discount}",
+                            text = "-${if (item.quotationItem.discountType == DiscountType.PERCENTAGE) (item.quotationItem.quantity * item.quotationItem.price) * (item.quotationItem.discount / 100) else item.quotationItem.discount}",
+                            style = MaterialTheme.typography.bodySmall,
+                            fontWeight = FontWeight.Light
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
+
+                    ) {
+                        Text(
+                            modifier = Modifier
+                                .padding(end = 16.dp),
+                            text = "GST (${item.quotationItem.gst}%)",
+                            style = MaterialTheme.typography.bodySmall,
+                            fontWeight = FontWeight.Light
+                        )
+                        Text(
+                            modifier = Modifier
+                                .padding(start = 16.dp),
+                            text = item.quotationItem.totalGst.toString(),
                             style = MaterialTheme.typography.bodySmall,
                             fontWeight = FontWeight.Light
                         )
@@ -124,7 +145,7 @@ fun QuotationItemCardView(
                         Text(
                             modifier = Modifier
                                 .padding(start = 16.dp),
-                            text = "${item.quotationItem.quantity * item.product.price - if (item.quotationItem.discountType == DiscountType.PERCENTAGE) (item.quotationItem.quantity * item.product.price) * (item.quotationItem.discount / 100) else item.quotationItem.discount}",
+                            text = item.quotationItem.totalAmount.toString(),
                             style = MaterialTheme.typography.bodySmall,
                             fontWeight = FontWeight.Bold
                         )

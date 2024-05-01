@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import java.text.DecimalFormat
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,26 +28,32 @@ class MakeQuotationViewModel @Inject constructor(
         private const val TAG = "MakeQuotationViewModel"
     }
 
+    val df = DecimalFormat("#")
+
+
     private val _makeQuotationState = mutableStateOf(MakeQuotationState())
     val makeQuotationState: State<MakeQuotationState> = _makeQuotationState
 
     private val _quotationId = mutableLongStateOf(-1L)
     val quotationId: State<Long> = _quotationId
 
-    private val _otherChargesState = mutableStateOf(OtherChargesState())
-    val otherChargesState: State<OtherChargesState> = _otherChargesState
+    private val _bottomSheetChargesState = mutableStateOf(BottomSheetChargesState())
+    val bottomSheetChargesState: State<BottomSheetChargesState> = _bottomSheetChargesState
 
     private val _customer = mutableStateOf(Customer())
     val customer: State<Customer> = _customer
-
-    private val _eventFlow = MutableSharedFlow<UiEvent>(extraBufferCapacity = 1)
-    val eventFlow = _eventFlow.asSharedFlow()
 
     private val _quotationItemList = mutableStateOf(listOf<QuotationItemWithProduct>())
     val quotationItemList: State<List<QuotationItemWithProduct>> = _quotationItemList
 
     private val _quotation = mutableStateOf(Quotation())
     val quotation: State<Quotation> = _quotation
+
+    private val _totalAmountState = mutableStateOf(BottomSectionTotalAmountState())
+    val totalAmountState: State<BottomSectionTotalAmountState> = _totalAmountState
+
+    private val _eventFlow = MutableSharedFlow<UiEvent>(extraBufferCapacity = 1)
+    val eventFlow = _eventFlow.asSharedFlow()
 
 
     init {
@@ -67,25 +74,25 @@ class MakeQuotationViewModel @Inject constructor(
             }
 
             is MakeQuotationEvent.EnteredOtherChargesLabel -> {
-                _otherChargesState.value = otherChargesState.value.copy(
+                _bottomSheetChargesState.value = bottomSheetChargesState.value.copy(
                     otherChargesLabel = event.label
                 )
             }
 
             is MakeQuotationEvent.EnteredOtherChargesTax -> {
-                _otherChargesState.value = otherChargesState.value.copy(
+                _bottomSheetChargesState.value = bottomSheetChargesState.value.copy(
                     otherChargesTax = event.tax
                 )
             }
 
             is MakeQuotationEvent.EnteredOtherChargesIsTaxable -> {
-                _otherChargesState.value = otherChargesState.value.copy(
+                _bottomSheetChargesState.value = bottomSheetChargesState.value.copy(
                     otherChargesIsTaxable = event.isTaxable
                 )
             }
 
             is MakeQuotationEvent.EnteredOtherChargesValue -> {
-                _otherChargesState.value = otherChargesState.value.copy(
+                _bottomSheetChargesState.value = bottomSheetChargesState.value.copy(
                     otherChargesAmount = event.value
                 )
             }
@@ -100,7 +107,7 @@ class MakeQuotationViewModel @Inject constructor(
             }
 
             is MakeQuotationEvent.ClickedOtherChargesPlusButton -> {
-                _otherChargesState.value = otherChargesState.value.copy(
+                _bottomSheetChargesState.value = bottomSheetChargesState.value.copy(
                     otherChargesLabel = makeQuotationState.value.otherChargesLabel,
                     otherChargesAmount = makeQuotationState.value.otherChargesAmount,
                     otherChargesIsTaxable = makeQuotationState.value.otherChargesIsTaxable,
@@ -116,20 +123,21 @@ class MakeQuotationViewModel @Inject constructor(
                 viewModelScope.launch {
                     try {
                         quotationUseCases.verifyOtherCharges(
-                            otherChargesState.value.otherChargesLabel,
-                            otherChargesState.value.otherChargesAmount,
-                            otherChargesState.value.otherChargesTax,
-                            otherChargesState.value.otherChargesIsTaxable,
+                            bottomSheetChargesState.value.otherChargesLabel,
+                            bottomSheetChargesState.value.otherChargesAmount,
+                            bottomSheetChargesState.value.otherChargesTax,
+                            bottomSheetChargesState.value.otherChargesIsTaxable,
                         )
                         _makeQuotationState.value = makeQuotationState.value.copy(
-                            otherChargesLabel = otherChargesState.value.otherChargesLabel,
-                            otherChargesAmount = otherChargesState.value.otherChargesAmount,
-                            otherChargesTax = otherChargesState.value.otherChargesTax,
-                            otherChargesIsTaxable = otherChargesState.value.otherChargesIsTaxable
+                            otherChargesLabel = bottomSheetChargesState.value.otherChargesLabel,
+                            otherChargesAmount = bottomSheetChargesState.value.otherChargesAmount,
+                            otherChargesTax = bottomSheetChargesState.value.otherChargesTax,
+                            otherChargesIsTaxable = bottomSheetChargesState.value.otherChargesIsTaxable
                         )
                         _makeQuotationState.value = makeQuotationState.value.copy(
                             showBottomSheet = false
                         )
+                        updateTotal()
                         Log.d(TAG, "onEvent: Bottom Sheet Updated")
                         _eventFlow.tryEmit(UiEvent.ShowBottomSheet(false))
                     } catch (e: Exception) {
@@ -154,6 +162,7 @@ class MakeQuotationViewModel @Inject constructor(
                     otherChargesTax = "0",
                     otherChargesIsTaxable = false
                 )
+                updateTotal()
             }
 
             MakeQuotationEvent.ClickedCustomerPlusButton -> {
@@ -172,6 +181,18 @@ class MakeQuotationViewModel @Inject constructor(
         }
     }
 
+    private fun updateTotal() {
+        val totalAmountAndGst = quotationUseCases.getTotalAmountAndGst(
+            quotationItemList.value,
+            makeQuotationState.value
+        )
+        _totalAmountState.value = totalAmountState.value.copy(
+
+            grandTotal = df.format(totalAmountAndGst.first),
+            totalTax = df.format(totalAmountAndGst.second),
+        )
+    }
+
     private fun getQuotationDetails() {
         viewModelScope.launch {
             val quotationId = quotationUseCases.addQuotation(Quotation())
@@ -180,6 +201,7 @@ class MakeQuotationViewModel @Inject constructor(
             quotationUseCases.getAllProductsOfQuotation(quotationId)
                 .onEach { quotationItem ->
                     _quotationItemList.value = quotationItem
+                    updateTotal()
                 }
                 .launchIn(viewModelScope)
 
@@ -195,6 +217,7 @@ class MakeQuotationViewModel @Inject constructor(
                 }
                 .launchIn(viewModelScope)
         }
+        df.maximumFractionDigits = 2
 
     }
 

@@ -71,6 +71,8 @@ data class QuotationItem(
     val discountType: DiscountType = DiscountType.PERCENTAGE,
     val discount: Double = 0.0,
     val description: String = "",
+    val totalGst: Double = 0.0,
+    val totalAmount: Double = 0.0
 )
 
 

@@ -24,6 +24,18 @@ class AddQuotationProduct(
         if (quotationItem.discountType == DiscountType.PERCENTAGE && quotationItem.discount > 100)
             throw IllegalArgumentException("Discount Percentage cannot be greater than 100")
 
-        quotationRepository.addQuotationProduct(quotationItem)
+        val totalAmountBeforeGstBeforeDiscount = quotationItem.price * quotationItem.quantity
+        val discountAmount = when (quotationItem.discountType) {
+            DiscountType.PERCENTAGE -> totalAmountBeforeGstBeforeDiscount * (quotationItem.discount / 100)
+            else -> quotationItem.discount
+        }
+        val totalAmountBeforeGstAfterDiscount = totalAmountBeforeGstBeforeDiscount - discountAmount
+        val totalGst =
+            if (quotationItem.gst != 0.0) totalAmountBeforeGstAfterDiscount * (quotationItem.gst / 100) else 0.0
+        val totalAmount = totalAmountBeforeGstAfterDiscount + totalGst
+        val updatedQuotationItem =
+            quotationItem.copy(totalAmount = totalAmount, totalGst = totalGst)
+
+        quotationRepository.addQuotationProduct(updatedQuotationItem)
     }
 }

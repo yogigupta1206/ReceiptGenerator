@@ -10,4 +10,5 @@ data class QuotationUseCases(
     val getQuotationWithId: GetQuotationWithId,
     val addQuotationProduct: AddQuotationProduct,
     val deleteQuotationItemById: DeleteQuotationItemById,
+    val getTotalAmountAndGst: GetTotalAmountAndGst,
 )

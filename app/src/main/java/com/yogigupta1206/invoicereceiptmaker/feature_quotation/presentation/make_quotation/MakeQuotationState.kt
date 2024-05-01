@@ -9,9 +9,14 @@ data class MakeQuotationState(
     val showBottomSheet: Boolean = false
 )
 
-data class OtherChargesState(
+data class BottomSheetChargesState(
     val otherChargesLabel: String = String(),
     val otherChargesAmount: String = "0",
     val otherChargesIsTaxable: Boolean = false,
     val otherChargesTax: String = "0"
+)
+
+data class BottomSectionTotalAmountState(
+    val totalTax: String = "0",
+    val grandTotal: String = "0"
 )
