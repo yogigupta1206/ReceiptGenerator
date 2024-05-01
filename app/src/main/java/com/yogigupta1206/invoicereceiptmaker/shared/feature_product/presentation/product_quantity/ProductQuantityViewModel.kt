@@ -34,16 +34,16 @@ class ProductQuantityViewModel @Inject constructor(
     private val _eventFlow = MutableSharedFlow<UiEvent>(extraBufferCapacity = 1)
     val eventFlow = _eventFlow.asSharedFlow()
 
-    private val _amount = mutableStateOf(String())
+    private val _amount = mutableStateOf("0.0")
     val amount: State<String> = _amount
 
-    private val _quantity = mutableStateOf(String())
+    private val _quantity = mutableStateOf("1")
     val quantity: State<String> = _quantity
 
-    private val _discount = mutableStateOf(String())
+    private val _discount = mutableStateOf("0.0")
     val discount: State<String> = _discount
 
-    private val _gstPercentage = mutableStateOf(String())
+    private val _gstPercentage = mutableStateOf("0.0")
     val gstPercentage: State<String> = _gstPercentage
 
     private val _discountType = mutableStateOf(DiscountType.PERCENTAGE)
@@ -133,8 +133,11 @@ class ProductQuantityViewModel @Inject constructor(
     private fun getProductDetails(productId: Long) {
         viewModelScope.launch {
             productUseCases.getProduct(productId)
-                .let {
+                ?.let {
                     _product.value = it
+                    _amount.value = it.price.toString()
+                    _gstPercentage.value = it.gstPercentage.toString()
+                    _description.value = it.description.toString()
                 }
         }
     }

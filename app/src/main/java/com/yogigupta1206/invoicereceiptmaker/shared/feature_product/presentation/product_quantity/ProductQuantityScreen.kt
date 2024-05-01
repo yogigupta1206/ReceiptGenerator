@@ -153,6 +153,7 @@ fun ProductQuantityScreen(
 
                 TextFieldWithTitle(label = if (viewModel.discountType.value == DiscountType.PERCENTAGE) "Discount (In %)" else "Discount Amount",
                     text = viewModel.discount.value,
+                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                     onValueChange = {
                         viewModel.onEvent(ProductQuantityEvent.EnteredDiscount(it))
                     })

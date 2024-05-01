@@ -52,6 +52,8 @@ fun QuotationItemCardView(
 
                     ) {
                         Text(
+                            modifier = Modifier
+                                .padding(end = 16.dp),
                             text = item.product.name ?: "",
                             style = MaterialTheme.typography.bodyMedium,
                             fontWeight = FontWeight.Bold
@@ -70,15 +72,19 @@ fun QuotationItemCardView(
 
                     ) {
                         Text(
-                            modifier = Modifier,
+                            modifier = Modifier
+                                .padding(end = 16.dp),
                             text = "Amount",
                             style = MaterialTheme.typography.bodySmall,
                             fontWeight = FontWeight.Light
                         )
                         Text(
+                            modifier = Modifier
+                                .padding(start = 16.dp),
                             text = "${item.quotationItem.quantity} * ${item.product.price} = ${item.quotationItem.quantity * item.product.price}",
                             style = MaterialTheme.typography.bodySmall,
-                            fontWeight = FontWeight.Light
+                            fontWeight = FontWeight.Light,
+                            softWrap = true
                         )
                     }
                     Spacer(modifier = Modifier.height(4.dp))
@@ -88,12 +94,15 @@ fun QuotationItemCardView(
 
                     ) {
                         Text(
-                            modifier = Modifier,
+                            modifier = Modifier
+                                .padding(end = 16.dp),
                             text = "Discount ${if (item.quotationItem.discountType == DiscountType.PERCENTAGE) "(${item.quotationItem.discount}%)" else ""}:",
                             style = MaterialTheme.typography.bodySmall,
                             fontWeight = FontWeight.Light
                         )
                         Text(
+                            modifier = Modifier
+                                .padding(start = 16.dp),
                             text = "-${if (item.quotationItem.discountType == DiscountType.PERCENTAGE) (item.quotationItem.quantity * item.product.price) * (item.quotationItem.discount / 100) else item.quotationItem.discount}",
                             style = MaterialTheme.typography.bodySmall,
                             fontWeight = FontWeight.Light
@@ -106,12 +115,15 @@ fun QuotationItemCardView(
 
                     ) {
                         Text(
-                            modifier = Modifier,
+                            modifier = Modifier
+                                .padding(end = 16.dp),
                             text = "Total amount",
                             style = MaterialTheme.typography.bodySmall,
                             fontWeight = FontWeight.Light
                         )
                         Text(
+                            modifier = Modifier
+                                .padding(start = 16.dp),
                             text = "${item.quotationItem.quantity * item.product.price - if (item.quotationItem.discountType == DiscountType.PERCENTAGE) (item.quotationItem.quantity * item.product.price) * (item.quotationItem.discount / 100) else item.quotationItem.discount}",
                             style = MaterialTheme.typography.bodySmall,
                             fontWeight = FontWeight.Bold
