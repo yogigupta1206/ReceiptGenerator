@@ -18,5 +18,6 @@ interface QuotationRepository {
     suspend fun addQuotationProduct(quotationItem: QuotationItem)
     suspend fun deleteQuotationItemById(id: Long)
     suspend fun updateQuotation(updatedQuotation: Quotation)
+    suspend fun getQuotationInProgress(): Quotation?
 
 }

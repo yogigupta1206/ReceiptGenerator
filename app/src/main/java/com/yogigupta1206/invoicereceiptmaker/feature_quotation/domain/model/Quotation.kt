@@ -19,12 +19,13 @@ import com.yogigupta1206.invoicereceiptmaker.shared.feature_tnc.domain.model.TnC
 data class Quotation(
     @PrimaryKey(autoGenerate = true) val id: Long? = null,
     val customerId: Long? = null,
-    val otherChargesLabel: String? = "Other Charge",
+    val otherChargesLabel: String? = "",
     val otherCharges: Double = 0.0,
     val otherChargesTaxable: Boolean = false,
     val otherChargesTax: Double = 0.0,
     val quotationTime: Long = System.currentTimeMillis(),
-    val quotationTotal: Double = 0.0,
+    val totalAmount: Double = 0.0,
+    val totalGst: Double = 0.0,
     val quotationComplete: Boolean = false
 )
 

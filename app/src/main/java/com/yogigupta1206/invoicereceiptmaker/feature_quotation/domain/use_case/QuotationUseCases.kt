@@ -5,10 +5,11 @@ data class QuotationUseCases(
     val getCustomerOfQuotationId: GetCustomerOfQuotationId,
     val updateQuotation: UpdateQuotation,
     val getAllProductsOfQuotation: GetAllProductsOfQuotation,
-    val saveQuotation: SaveQuotation,
+    val generateQuotation: GenerateQuotation,
     val verifyOtherCharges: VerifyOtherCharges,
     val getQuotationWithId: GetQuotationWithId,
     val addQuotationProduct: AddQuotationProduct,
     val deleteQuotationItemById: DeleteQuotationItemById,
     val getTotalAmountAndGst: GetTotalAmountAndGst,
+    val getQuotationInProgress: GetQuotationInProgress
 )

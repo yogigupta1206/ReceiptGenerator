@@ -16,7 +16,7 @@ data class BottomSheetChargesState(
     val otherChargesTax: String = "0"
 )
 
-data class BottomSectionTotalAmountState(
+data class TotalAmountState(
     val totalTax: String = "0",
     val grandTotal: String = "0"
 )

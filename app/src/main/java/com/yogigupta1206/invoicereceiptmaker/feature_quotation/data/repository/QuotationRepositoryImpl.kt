@@ -77,4 +77,8 @@ class QuotationRepositoryImpl(
         quotationDao.deleteQuotationItemById(id)
     }
 
+    override suspend fun getQuotationInProgress(): Quotation? {
+        return quotationDao.getQuotationInProgress()
+    }
+
 }

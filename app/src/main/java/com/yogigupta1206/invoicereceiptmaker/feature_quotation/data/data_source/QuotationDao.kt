@@ -100,5 +100,8 @@ interface QuotationDao {
     @Query("SELECT * FROM QuotationItem WHERE quotationId = :quotationId")
     fun getAllProductsOfQuotation(quotationId: Long): Flow<List<QuotationItem>>
 
+    @Query("SELECT * FROM Quotation WHERE quotationComplete = 0")
+    suspend fun getQuotationInProgress(): Quotation?
+
 
 }

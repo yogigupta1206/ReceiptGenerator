@@ -24,12 +24,12 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import com.yogigupta1206.invoicereceiptmaker.R
-import com.yogigupta1206.invoicereceiptmaker.feature_quotation.presentation.make_quotation.BottomSectionTotalAmountState
+import com.yogigupta1206.invoicereceiptmaker.feature_quotation.presentation.make_quotation.TotalAmountState
 
 @Composable
 fun BottomSectionForTotalAmount(
     modifier: Modifier = Modifier,
-    state: BottomSectionTotalAmountState,
+    state: TotalAmountState,
     onGenerateClick: () -> Unit,
 ) {
 
@@ -121,7 +121,7 @@ fun BottomSectionForTotalAmount(
 fun BottomSectionForTotalAmountPreview() {
     Surface(modifier = Modifier) {
         BottomSectionForTotalAmount(
-            state = BottomSectionTotalAmountState()
+            state = TotalAmountState()
         ) {}
     }
 

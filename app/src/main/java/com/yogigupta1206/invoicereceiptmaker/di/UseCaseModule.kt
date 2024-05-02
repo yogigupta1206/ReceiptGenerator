@@ -4,12 +4,13 @@ import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.repository
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.use_case.AddQuotation
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.use_case.AddQuotationProduct
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.use_case.DeleteQuotationItemById
+import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.use_case.GenerateQuotation
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.use_case.GetAllProductsOfQuotation
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.use_case.GetCustomerOfQuotationId
+import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.use_case.GetQuotationInProgress
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.use_case.GetQuotationWithId
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.use_case.GetTotalAmountAndGst
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.use_case.QuotationUseCases
-import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.use_case.SaveQuotation
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.use_case.UpdateQuotation
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.use_case.VerifyOtherCharges
 import com.yogigupta1206.invoicereceiptmaker.shared.feature_business.domain.repository.BusinessRepository
@@ -86,12 +87,13 @@ class UseCaseModule {
             GetCustomerOfQuotationId(quotationRepository),
             UpdateQuotation(quotationRepository),
             GetAllProductsOfQuotation(quotationRepository),
-            SaveQuotation(quotationRepository),
+            GenerateQuotation(quotationRepository),
             VerifyOtherCharges(),
             GetQuotationWithId(quotationRepository),
             AddQuotationProduct(quotationRepository),
             DeleteQuotationItemById(quotationRepository),
-            GetTotalAmountAndGst()
+            GetTotalAmountAndGst(),
+            GetQuotationInProgress(quotationRepository)
         )
     }
 
