@@ -30,8 +30,8 @@ fun CustomerCardView(
     customer: Customer? = null,
     iconImageVector: ImageVector = Icons.Default.Edit,
     iconDescription: String = "Edit customer details",
-    iconOnClick: () -> Unit,
-    cardOnClick: () -> Unit
+    iconOnClick: () -> Unit = {},
+    cardOnClick: () -> Unit = {}
 ) {
     if (customer == null || customer.name.isNullOrBlank()) return
 

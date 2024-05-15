@@ -22,7 +22,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             InvoiceReceiptMakerTheme {
                 Surface(
-                    modifier = Modifier.fillMaxSize().background(Color.White)
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.White)
                 ) {
                     AppEntryPoint()
                 }
@@ -41,7 +43,9 @@ fun AppEntryPoint() {
 fun AppEntryPointPreview() {
     InvoiceReceiptMakerTheme {
         Surface(
-            modifier = Modifier.fillMaxSize().background(Color.White)
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.White)
         ) {
             AppEntryPoint()
         }

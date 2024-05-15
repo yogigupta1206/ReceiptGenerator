@@ -33,5 +33,6 @@ object Dependencies {
 
     val gson by lazy { "com.google.code.gson:gson:${Versions.gson}" }
 
+    val itext7Core by lazy { "com.itextpdf:itext-core:${Versions.itext7Core}" }
 
 }

@@ -14,5 +14,6 @@ object Versions {
     const val datastorePreferences = "1.0.0"
     const val gson = "2.10.1"
     const val androidTestRunner = "1.4.0"
+    const val itext7Core = "8.0.4"
 
 }
