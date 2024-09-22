@@ -8,6 +8,7 @@ class GetTotalAmountAndGst {
         quotationItemList: List<QuotationItemWithProduct>,
         makeQuotationState: MakeQuotationState
     ): Pair<Double, Double> {
+
         var totalAmount = quotationItemList.sumOf { it.quotationItem.totalAmount }
         var gstAmount = quotationItemList.sumOf { it.quotationItem.totalGst }
 

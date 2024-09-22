@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.model.Quotation
@@ -11,11 +12,18 @@ import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.model.Quot
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.use_case.QuotationUseCases
 import com.yogigupta1206.invoicereceiptmaker.shared.feature_customer.domain.model.Customer
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.DecimalFormat
 import javax.inject.Inject
 
@@ -28,7 +36,7 @@ class MakeQuotationViewModel @Inject constructor(
         private const val TAG = "MakeQuotationViewModel"
     }
 
-    val df = DecimalFormat("#")
+    private val df = DecimalFormat("#")
 
 
     private val _makeQuotationState = mutableStateOf(MakeQuotationState())
@@ -68,7 +76,7 @@ class MakeQuotationViewModel @Inject constructor(
             }
 
             is MakeQuotationEvent.DeleteProduct -> {
-                viewModelScope.launch {
+                viewModelScope.launch(Dispatchers.IO) {
                     quotationUseCases.deleteQuotationItemById(event.quotationItemId)
                 }
             }
@@ -104,7 +112,7 @@ class MakeQuotationViewModel @Inject constructor(
             }
 
             MakeQuotationEvent.GenerateQuotation -> {
-                viewModelScope.launch {
+                viewModelScope.launch(Dispatchers.IO) {
                     try {
                         quotationUseCases.generateQuotation(
                             customer.value,
@@ -134,7 +142,7 @@ class MakeQuotationViewModel @Inject constructor(
             }
 
             MakeQuotationEvent.UpdateBottomSheet -> {
-                viewModelScope.launch {
+                viewModelScope.launch(Dispatchers.IO) {
                     try {
                         quotationUseCases.verifyOtherCharges(
                             bottomSheetChargesState.value.otherChargesLabel,
@@ -146,9 +154,7 @@ class MakeQuotationViewModel @Inject constructor(
                             otherChargesLabel = bottomSheetChargesState.value.otherChargesLabel,
                             otherChargesAmount = bottomSheetChargesState.value.otherChargesAmount,
                             otherChargesTax = bottomSheetChargesState.value.otherChargesTax,
-                            otherChargesIsTaxable = bottomSheetChargesState.value.otherChargesIsTaxable
-                        )
-                        _makeQuotationState.value = makeQuotationState.value.copy(
+                            otherChargesIsTaxable = bottomSheetChargesState.value.otherChargesIsTaxable,
                             showBottomSheet = false
                         )
                         quotationUseCases.updateQuotation(
@@ -184,7 +190,7 @@ class MakeQuotationViewModel @Inject constructor(
                     otherChargesTax = "0",
                     otherChargesIsTaxable = false
                 )
-                viewModelScope.launch {
+                viewModelScope.launch(Dispatchers.IO) {
                     quotationUseCases.updateQuotation(
                         quotation.value.copy(
                             otherChargesLabel = "",
@@ -202,7 +208,7 @@ class MakeQuotationViewModel @Inject constructor(
             }
 
             MakeQuotationEvent.DeleteCustomer -> {
-                viewModelScope.launch {
+                viewModelScope.launch(Dispatchers.IO) {
                     quotationUseCases.updateQuotation(
                         quotation.value.copy(
                             customerId = null
@@ -224,24 +230,29 @@ class MakeQuotationViewModel @Inject constructor(
         )
     }
 
+    @OptIn(FlowPreview::class)
     private fun getQuotationDetails() {
-        viewModelScope.launch {
-            val quotation = quotationUseCases.getQuotationInProgress()
+        viewModelScope.launch(Dispatchers.Default) {
 
-            val quotationId = quotation?.id ?: quotationUseCases.addQuotation(Quotation())
-            _quotationId.longValue = quotationId
+            val quotation = withContext(Dispatchers.IO){ quotationUseCases.getQuotationInProgress() }
+
+            val quotationId = quotation?.id ?: withContext(Dispatchers.IO) { quotationUseCases.addQuotation(Quotation()) }
+            _quotationId.longValue = withContext(Dispatchers.Main) { quotationId }
 
             quotationUseCases.getAllProductsOfQuotation(quotationId)
                 .onEach { quotationItem ->
                     _quotationItemList.value = quotationItem
                     updateTotal()
                 }
+                .debounce(500)
+                .flowOn(Dispatchers.IO)
                 .launchIn(viewModelScope)
 
             quotationUseCases.getCustomerOfQuotationId(quotationId)
                 .onEach { customer ->
                     _customer.value = customer ?: Customer()
                 }
+                .flowOn(Dispatchers.IO)
                 .launchIn(viewModelScope)
 
             quotationUseCases.getQuotationWithId(quotationId)
@@ -259,8 +270,12 @@ class MakeQuotationViewModel @Inject constructor(
                         totalTax = df.format(quotation.totalGst)
                     )
                     updateTotal()
+
                 }
+                .debounce(500)
+                .flowOn(Dispatchers.IO)
                 .launchIn(viewModelScope)
+
         }
         df.maximumFractionDigits = 2
 
