@@ -37,10 +37,9 @@ fun AppNavigationGraph() {
         }
         composable(Screens.MakeQuotation.route) {
             MakeQuotationScreen(navController = navController)
-            //call our composable screens here
         }
         composable(Screens.Items.route) {
-            //call our composable screens here
+
         }
         composable(
             route = Screens.Products.route + "?openFrom={openFrom}&id={id}",

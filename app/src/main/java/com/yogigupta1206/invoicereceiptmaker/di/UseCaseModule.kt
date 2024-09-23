@@ -6,6 +6,7 @@ import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.use_case.A
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.use_case.DeleteQuotationItemById
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.use_case.GenerateQuotation
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.use_case.GetAllProductsOfQuotation
+import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.use_case.GetCompletedQuotations
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.use_case.GetCustomerOfQuotationId
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.use_case.GetQuotationInProgress
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.use_case.GetQuotationWithId
@@ -93,7 +94,8 @@ class UseCaseModule {
             AddQuotationProduct(quotationRepository),
             DeleteQuotationItemById(quotationRepository),
             GetTotalAmountAndGst(),
-            GetQuotationInProgress(quotationRepository)
+            GetQuotationInProgress(quotationRepository),
+            GetCompletedQuotations(quotationRepository)
         )
     }
 

@@ -3,6 +3,7 @@ package com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.repositor
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.model.Quotation
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.model.QuotationItem
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.model.QuotationItemWithProduct
+import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.model.QuotationWithCustomer
 import com.yogigupta1206.invoicereceiptmaker.shared.feature_customer.domain.model.Customer
 import kotlinx.coroutines.flow.Flow
 
@@ -19,5 +20,6 @@ interface QuotationRepository {
     suspend fun deleteQuotationItemById(id: Long)
     suspend fun updateQuotation(updatedQuotation: Quotation)
     suspend fun getQuotationInProgress(): Quotation?
+    suspend fun getAllCompletedQuotation(): Flow<List<QuotationWithCustomer>>
 
 }

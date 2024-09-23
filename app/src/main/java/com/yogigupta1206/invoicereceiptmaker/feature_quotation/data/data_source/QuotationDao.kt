@@ -20,8 +20,8 @@ import kotlinx.coroutines.flow.Flow
 interface QuotationDao {
 
     @Transaction
-    @Query("SELECT * FROM Quotation WHERE id = :quotationId")
-    fun getQuotationWithCustomerDetails(quotationId: Long): Flow<QuotationWithCustomer>
+    @Query("SELECT * FROM Quotation WHERE quotationComplete = 1")
+    fun getQuotationWithCustomerDetails(): Flow<List<QuotationWithCustomer>>
 
     @Transaction
     @Query("SELECT * FROM Quotation WHERE id = :quotationId")

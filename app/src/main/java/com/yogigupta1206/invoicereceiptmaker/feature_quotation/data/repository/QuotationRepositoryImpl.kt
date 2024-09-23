@@ -53,8 +53,8 @@ class QuotationRepositoryImpl(
         }
     }
 
-    fun getQuotationWithCustomer(quotationId: Long): Flow<QuotationWithCustomer> {
-        return quotationDao.getQuotationWithCustomerDetails(quotationId)
+    override suspend fun getAllCompletedQuotation(): Flow<List<QuotationWithCustomer>> {
+        return quotationDao.getQuotationWithCustomerDetails()
     }
 
     override fun getQuotationAndQuotationItemsById(quotationId: Long): Flow<List<QuotationItemWithProduct>> {

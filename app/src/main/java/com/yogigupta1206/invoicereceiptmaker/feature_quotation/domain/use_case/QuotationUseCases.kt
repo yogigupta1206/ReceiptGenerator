@@ -11,5 +11,6 @@ data class QuotationUseCases(
     val addQuotationProduct: AddQuotationProduct,
     val deleteQuotationItemById: DeleteQuotationItemById,
     val getTotalAmountAndGst: GetTotalAmountAndGst,
-    val getQuotationInProgress: GetQuotationInProgress
+    val getQuotationInProgress: GetQuotationInProgress,
+    val getCompletedQuotations: GetCompletedQuotations,
 )
