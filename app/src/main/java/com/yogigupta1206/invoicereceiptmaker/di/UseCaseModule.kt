@@ -1,5 +1,6 @@
 package com.yogigupta1206.invoicereceiptmaker.di
 
+import android.content.Context
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.repository.QuotationRepository
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.use_case.AddQuotation
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.use_case.AddQuotationProduct
@@ -33,6 +34,7 @@ import com.yogigupta1206.invoicereceiptmaker.shared.feature_product.domain.use_c
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -82,13 +84,15 @@ class UseCaseModule {
     @Singleton
     fun provideQuotationUseCases(
         quotationRepository: QuotationRepository,
+        businessRepository: BusinessRepository,
+        @ApplicationContext context: Context
     ): QuotationUseCases {
         return QuotationUseCases(
             AddQuotation(quotationRepository),
             GetCustomerOfQuotationId(quotationRepository),
             UpdateQuotation(quotationRepository),
             GetAllProductsOfQuotation(quotationRepository),
-            GenerateQuotation(quotationRepository),
+            GenerateQuotation(quotationRepository, businessRepository, context),
             VerifyOtherCharges(),
             GetQuotationWithId(quotationRepository),
             AddQuotationProduct(quotationRepository),

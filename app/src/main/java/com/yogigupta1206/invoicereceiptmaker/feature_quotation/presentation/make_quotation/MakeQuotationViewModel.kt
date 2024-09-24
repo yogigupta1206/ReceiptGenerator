@@ -117,7 +117,7 @@ class MakeQuotationViewModel @Inject constructor(
                         quotationUseCases.generateQuotation(
                             customer.value,
                             quotation.value,
-                            quotationItemList.value.map { it.quotationItem },
+                            quotationItemList.value,
                             makeQuotationState.value,
                             totalAmountState.value
                         )

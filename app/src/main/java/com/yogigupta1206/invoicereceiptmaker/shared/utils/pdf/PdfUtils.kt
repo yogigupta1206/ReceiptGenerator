@@ -35,9 +35,9 @@ object PdfUtils {
         quotationItems: List<QuotationItemWithProduct> = emptyList(),
         quotation: Quotation = Quotation(),
         docType: String = "Quotation"
-    ) {
+    ): String {
 
-        val dest = File(context.cacheDir, "receipt.pdf")
+        val dest = File(context.cacheDir, "${quotation.id}_receipt.pdf")
         val pdfDoc = com.itextpdf.kernel.pdf.PdfDocument(PdfWriter(dest))
         val document = Document(pdfDoc, PageSize.A4)
 
@@ -86,8 +86,9 @@ object PdfUtils {
         //.setHorizontalAlignment(HorizontalAlignment.RIGHT)
         document.add(signatureSection)
 
-
         document.close()
+
+        return dest.absolutePath
 
     }
 

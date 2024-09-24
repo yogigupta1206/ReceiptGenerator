@@ -27,7 +27,7 @@ data class Quotation(
     val totalAmount: Double = 0.0,
     val totalGst: Double = 0.0,
     val quotationComplete: Boolean = false,
-    val quotationPath: String? = null
+    val quotationPath: String? = ""
 )
 
 @Entity(
