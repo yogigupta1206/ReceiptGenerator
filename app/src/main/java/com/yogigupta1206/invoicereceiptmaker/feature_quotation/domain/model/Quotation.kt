@@ -26,7 +26,8 @@ data class Quotation(
     val quotationTime: Long = System.currentTimeMillis(),
     val totalAmount: Double = 0.0,
     val totalGst: Double = 0.0,
-    val quotationComplete: Boolean = false
+    val quotationComplete: Boolean = false,
+    val quotationPath: String? = null
 )
 
 @Entity(
