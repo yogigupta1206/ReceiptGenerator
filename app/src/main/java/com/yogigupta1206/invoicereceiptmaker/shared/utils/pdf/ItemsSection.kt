@@ -13,6 +13,7 @@ import com.itextpdf.layout.properties.HorizontalAlignment
 import com.itextpdf.layout.properties.TextAlignment
 import com.itextpdf.layout.properties.VerticalAlignment
 import com.yogigupta1206.invoicereceiptmaker.feature_quotation.domain.model.QuotationItemWithProduct
+import java.util.Locale
 
 class ItemsSection {
 
@@ -53,10 +54,12 @@ class ItemsSection {
 
         val totalTable = Table(2).setAutoLayout().setHorizontalAlignment(HorizontalAlignment.RIGHT)
 
+        // TODO : Add Other Charges Section here
+
         totalTable.addCell(getCell("Subtotal: ", false))
         totalTable.addCell(
             getCell(
-                String.format("%.2f", quotationItems.sumOf { it.quotationItem.totalAmount }),
+                String.format(Locale.getDefault(),"%.2f", quotationItems.sumOf { it.quotationItem.totalAmount }),
                 false,
                 leftMarginRequired = true
             )
@@ -65,7 +68,7 @@ class ItemsSection {
         totalTable.addCell(getCell("Total Discount: ", false))
         totalTable.addCell(
             getCell(
-                String.format("%.2f", quotationItems.sumOf { it.quotationItem.discount }),
+                String.format(Locale.getDefault(),"%.2f", quotationItems.sumOf { it.quotationItem.discount }),
                 false,
                 leftMarginRequired = true
             )
@@ -74,7 +77,7 @@ class ItemsSection {
         totalTable.addCell(getCell("Total GST: ", false))
         totalTable.addCell(
             getCell(
-                String.format("%.2f", quotationItems.sumOf { it.quotationItem.totalGst }),
+                String.format(Locale.getDefault(),"%.2f", quotationItems.sumOf { it.quotationItem.totalGst }),
                 false,
                 leftMarginRequired = true
             )
@@ -83,7 +86,7 @@ class ItemsSection {
         totalTable.addFooterCell(getHeaderCell("Total: "))
         totalTable.addFooterCell(
             getHeaderCell(
-                String.format("%.2f", quotationItems.sumOf { it.quotationItem.totalAmount }),
+                String.format(Locale.getDefault(),"%.2f", quotationItems.sumOf { it.quotationItem.totalAmount }),
                 leftMarginRequired = true
             )
         )
