@@ -47,8 +47,7 @@ import kotlinx.coroutines.flow.collectLatest
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MakeQuotationScreen(
-    navController: NavController,
-    viewModel: MakeQuotationViewModel = hiltViewModel()
+    navController: NavController, viewModel: MakeQuotationViewModel = hiltViewModel()
 ) {
     val TAG = "MakeQuotationScreen"
 
@@ -113,9 +112,7 @@ fun MakeQuotationScreen(
                 title = "Make Quotation"
             )
         }, navigationIcon = {
-            IconButton(onClick = {
-                navController?.popBackStack()
-            }) {
+            IconButton(onClick = { navController?.popBackStack() }) {
                 Icon(
                     imageVector = Icons.Filled.ArrowBack,
                     contentDescription = "Localized description"
@@ -130,74 +127,53 @@ fun MakeQuotationScreen(
                 .fillMaxSize()
         ) {
             LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
+                modifier = Modifier.fillMaxSize()
             ) {
 
                 item {
-                    QuotationTopSection(
-                        modifier = Modifier
-                            .background(MaterialTheme.colorScheme.surfaceVariant),
+                    QuotationTopSection(modifier = Modifier.background(MaterialTheme.colorScheme.surfaceVariant),
                         quotationTime = state.quotationTime,
                         quotationId = viewModel.quotationId.value.toString(),
                         onClick = {
                             // TODO: Show Date Picker
-                        }
-                    )
+                        })
 
                     Spacer(modifier = Modifier.height(16.dp))
 
                     // CUSTOMER SECTION
-                    LabelsSection(
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp)
-                            .clip(RoundedCornerShape(8.dp))
-                            .background(MaterialTheme.colorScheme.surfaceVariant),
+                    LabelsSection(modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .clip(RoundedCornerShape(8.dp))
+                        .background(MaterialTheme.colorScheme.surfaceVariant),
                         label = "TO",
-                        onClick = {
-                            viewModel.onEvent(MakeQuotationEvent.ClickedCustomerPlusButton)
-                        }
-                    )
-                    CustomerCardView(
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp),
+                        onClick = { viewModel.onEvent(MakeQuotationEvent.ClickedCustomerPlusButton) })
+                    CustomerCardView(modifier = Modifier.padding(horizontal = 16.dp),
                         customer = viewModel.customer.value,
                         iconImageVector = Icons.Filled.Delete,
                         iconDescription = "Delete Customer",
-                        iconOnClick = {
-                            viewModel.onEvent(MakeQuotationEvent.DeleteCustomer)
-                        },
-                        cardOnClick = {}
-                    )
+                        iconOnClick = { viewModel.onEvent(MakeQuotationEvent.DeleteCustomer) },
+                        cardOnClick = {})
 
 
                     Spacer(modifier = Modifier.height(24.dp))
 
                     // PRODUCTS SECTION
-                    LabelsSection(
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp)
-                            .clip(RoundedCornerShape(8.dp))
-                            .background(MaterialTheme.colorScheme.surfaceVariant),
+                    LabelsSection(modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .clip(RoundedCornerShape(8.dp))
+                        .background(MaterialTheme.colorScheme.surfaceVariant),
                         label = "PRODUCTS",
-                        onClick = {
-                            viewModel.onEvent(MakeQuotationEvent.ClickedProductPlusButton)
-                        }
-                    )
+                        onClick = { viewModel.onEvent(MakeQuotationEvent.ClickedProductPlusButton) })
                 }
 
                 items(viewModel.quotationItemList.value,
-                    key = { item -> item.quotationItem.id!! }
-                ) { item ->
-                    QuotationItemCardView(
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp, vertical = 8.dp),
+                    key = { item -> item.quotationItem.id!! }) { item ->
+                    QuotationItemCardView(modifier = Modifier.padding(
+                        horizontal = 16.dp, vertical = 8.dp
+                    ),
                         item = item,
-                        onDeleteClicked = {
-                            viewModel.onEvent(MakeQuotationEvent.DeleteProduct(item.quotationItem.id!!))
-                        },
-                        onItemClicked = {}
-                    )
+                        onDeleteClicked = { viewModel.onEvent(MakeQuotationEvent.DeleteProduct(item.quotationItem.id!!)) },
+                        onItemClicked = {})
                 }
 
                 item {
@@ -205,71 +181,42 @@ fun MakeQuotationScreen(
                     Spacer(modifier = Modifier.height(16.dp))
 
                     // OTHER CHARGES SECTION
-                    LabelsSection(
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp)
-                            .clip(RoundedCornerShape(8.dp))
-                            .background(MaterialTheme.colorScheme.surfaceVariant),
+                    LabelsSection(modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .clip(RoundedCornerShape(8.dp))
+                        .background(MaterialTheme.colorScheme.surfaceVariant),
                         label = "OTHER CHARGE",
-                        onClick = {
-                            viewModel.onEvent(MakeQuotationEvent.ClickedOtherChargesPlusButton)
-                        }
-                    )
-                    OtherChargesSection(
-                        modifier = Modifier
-                            .padding(16.dp),
+                        onClick = { viewModel.onEvent(MakeQuotationEvent.ClickedOtherChargesPlusButton) })
+                    OtherChargesSection(modifier = Modifier.padding(16.dp),
                         state = state,
-                        onDeleteClicked = {
-                            viewModel.onEvent(MakeQuotationEvent.DeleteOtherCharges)
-                        },
-                        onItemClicked = {
-                            viewModel.onEvent(MakeQuotationEvent.ClickedOtherChargesPlusButton)
-                        }
-                    )
+                        onDeleteClicked = { viewModel.onEvent(MakeQuotationEvent.DeleteOtherCharges) },
+                        onItemClicked = { viewModel.onEvent(MakeQuotationEvent.ClickedOtherChargesPlusButton) })
                     Spacer(modifier = Modifier.height(100.dp))
                 }
             }
 
-            BottomSectionForTotalAmount(
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(bottom = 8.dp, start = 8.dp, end = 8.dp),
+            BottomSectionForTotalAmount(modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 8.dp, start = 8.dp, end = 8.dp),
                 state = viewModel.totalAmountState.value,
                 onGenerateClick = {
                     viewModel.onEvent(MakeQuotationEvent.GenerateQuotation)
-                }
-            )
-
+                })
         }
 
-
-        OtherChargesBottomSheet(
-            sheetState = sheetState,
+        OtherChargesBottomSheet(sheetState = sheetState,
             bottomSheetSnackbarHostState = bottomSheetSnackbarHostState,
             showBottomSheet = state.showBottomSheet,
             otherChargesLabel = otherChargesState.otherChargesLabel,
             otherChargesValue = otherChargesState.otherChargesAmount,
             checkBoxChecked = otherChargesState.otherChargesIsTaxable,
             gstValue = otherChargesState.otherChargesTax,
-            onSaveClick = {
-                viewModel.onEvent(MakeQuotationEvent.UpdateBottomSheet)
-            },
-            onDismissRequest = {
-                viewModel.onEvent(MakeQuotationEvent.ClickedBottomSheetDismiss)
-            },
-            onLabelNameChange = {
-                viewModel.onEvent(MakeQuotationEvent.EnteredOtherChargesLabel(it))
-            },
-            onAmountChange = {
-                viewModel.onEvent(MakeQuotationEvent.EnteredOtherChargesValue(it))
-            },
-            onTaxChange = {
-                viewModel.onEvent(MakeQuotationEvent.EnteredOtherChargesIsTaxable(it))
-            },
-            onTaxAmountChange = {
-                viewModel.onEvent(MakeQuotationEvent.EnteredOtherChargesTax(it))
-            }
-        )
+            onSaveClick = { viewModel.onEvent(MakeQuotationEvent.UpdateBottomSheet) },
+            onDismissRequest = { viewModel.onEvent(MakeQuotationEvent.ClickedBottomSheetDismiss) },
+            onLabelNameChange = { viewModel.onEvent(MakeQuotationEvent.EnteredOtherChargesLabel(it)) },
+            onAmountChange = { viewModel.onEvent(MakeQuotationEvent.EnteredOtherChargesValue(it)) },
+            onTaxChange = { viewModel.onEvent(MakeQuotationEvent.EnteredOtherChargesIsTaxable(it)) },
+            onTaxAmountChange = { viewModel.onEvent(MakeQuotationEvent.EnteredOtherChargesTax(it)) })
 
     }
 }
